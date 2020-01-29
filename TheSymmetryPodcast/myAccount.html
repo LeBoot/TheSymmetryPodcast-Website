@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!--
+Name: myAccount.html, (TSP Capstone)
+Author: Leboutillier
+Date Created: 24 JAN 2020
+Date Modified:
+-->
+<html lang="en">
+<head>
+	<!-- Meta for Bootstrap 4 -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<!-- Title for document -->
+	<title>My Account | The Symmetry Podcast</title>
+	
+	<!-- External links -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	
+	<!-- Additional CSS -->
+	<link href="TspStyles.css" rel="stylesheet" type="text/css" />
+
+	<!-- Styles for this page -->
+	<style>
+	
+		#pageContent {
+			text-align: center;
+			max-width: 400px;
+			margin: auto;
+			padding-top: 30px;
+			padding-bottom: 60px;
+		}
+		
+		#myAccountTitle {
+			margin-bottom: 30px;
+		}
+	
+		#myAccountNavButton {
+			text-decoration-line: underline;
+			text-decoration-style: double;
+		}
+		
+		.flex-container {			
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			align-items: center;
+			
+			display: -webkit-box;
+			display: -moz-box;
+			display: -ms-flexbox;
+			display: -webkit-flex;
+			display: flex;
+			
+			text-align: left;
+			border-bottom: solid grey 2px;
+			font-size: 16px;
+			padding: 3px 0px;
+		}
+		
+		.infoTitleDiv {
+			width: 30%;
+			padding-left: 5px;
+			font-weight: bold;
+		}
+		
+		.infoDisplayDiv {
+			width: 55%;
+			padding-left: 5px;
+			margin: 5px 0px;
+		}
+		
+		.editButtonDiv,
+		.showPasswordButtonDiv {
+			width: 15%;
+			text-align: center;
+		}
+		
+		.infoDisplayDivPassword {
+			width: 40%;
+			padding-left: 5px;
+			margin: 5px 0px;
+		}	
+		
+		button {
+			background-color: white;
+			color: black;
+			border: solid black 1px;
+			border-radius: 4px;
+		}
+		
+		button:hover {
+			background-color: lightgrey;
+		}
+		
+		#logOutDeleteArea {
+			margin: 20px 20px -20px 20px;
+		}
+		
+		.extraButton {
+			background-color: white;
+			color: black;
+			border: solid black 1px;
+			border-radius: 4px;
+			margin: 30px 8px;
+			font-size: 18px;
+		}
+		
+		.extraButton: hover {
+			background-color: lightgrey;
+		}
+		
+		input.text, select {
+			border: 1px solid grey;
+			border-radius: 4px;
+			padding: 0 15px;
+			width: 92%;
+			font-size: 14px;
+		}
+		
+		#deletedAccountDiv {
+			text-align: center;
+			margin: 30px 0px 175px 0px;
+		}
+		
+		#deletedAccountHeading1 {
+			padding-bottom: 20px;
+		}
+		
+		.hiddenElement {
+			display: none;
+		}
+
+	</style>
+</head>
+	
+<body>
+	<div id="bodyWrap">
+		<div>
+			<header>
+				<!-- Dynamically Added with headerFooter.js -->
+			</header>
+			<section>
+				<div id="pageContent">
+					<div id="normalDisplay">
+						<h1 id="myAccountTitle">My Account</h1>
+					
+						<div class="infoAndEditField" >
+							<div class="displayInfoField  flex-container" style="border-top: solid grey 2px;">
+								<div class="infoTitleDiv">
+									First Name:
+								</div>
+								<div class="infoDisplayDiv" id="firstNameDisplay">
+									Ben
+								</div>
+								<div class="editButtonDiv" id="firstNameEditButtonDiv">
+									<button id="firstNameEditButton" onClick="changeFirstNameFieldsFromEditToSave()">Edit</button>
+								</div>
+							</div>
+						</div>
+						
+						<div class="infoAndEditField">
+							<div class="displayInfoField  flex-container">
+								<div class="infoTitleDiv">
+									Last Name:
+								</div>
+								<div class="infoDisplayDiv" id="lastNameDisplay">
+									LeBoot
+								</div>
+								<div class="editButtonDiv" id="lastNameEditButtonDiv">
+									<button id="lastNameEditButton" onClick="changeLastNameFieldsFromEditToSave()">Edit</button>
+								</div>
+							</div>
+						</div>
+						
+						<div class="infoAndEditField">
+							<div class="displayInfoField  flex-container">
+								<div class="infoTitleDiv">
+									Email:
+								</div>
+								<div class="infoDisplayDiv" id="emailDisplay">
+									benLeBoot@website.com
+								</div>
+								<div class="editButtonDiv" id="emailEditButtonDiv">
+									<button id="emailEditButton" onClick="changeEmailFieldsFromEditToSave()">Edit</button>
+								</div>
+							</div>
+						</div>
+						
+						<div class="infoAndEditField">
+							<div class="displayInfoField  flex-container">
+								<div class="infoTitleDiv">
+									Username:
+								</div>
+								<div class="infoDisplayDiv" id="usernameDisplay">
+									benLeBoot
+								</div>
+								<div class="editButtonDiv" id="usernameButtonDiv">
+									<button id="usernameEditButton" onClick="changeUsernameFieldsFromEditToSave()">Edit</button>
+								</div>
+							</div>
+						</div>
+						
+						<div class="infoAndEditField">
+							<div class="displayInfoField  flex-container">
+								<div class="infoTitleDiv">
+									Password:
+								</div>
+								<div class="infoDisplayDivPassword" id="passwordDisplay">
+									Password
+								</div>
+								<div class="showPasswordButtonDiv">
+									<button id="passwordDisplayButton" onClick="toggleDisplayPassword()">Show</button>
+								</div>
+								<div class="editButtonDiv" id="passwordButtonDiv">
+									<button id="passwordEditButton" onClick="changePasswordFieldsFromEditToSave()">Edit</button>
+								</div>
+							</div>
+						</div>
+						
+						<div class="infoAndEditField">
+							<div class="displayInfoField  flex-container">
+								<div class="infoTitleDiv">
+									Region:
+								</div>
+								<div class="infoDisplayDiv" id="regionDisplay">
+									North America
+								</div>
+								<div class="editButtonDiv" id="regionButtonDiv">
+									<button id="regionEditButton" onClick="changeRegionFieldsFromEditToSave()">Edit</button>
+								</div>
+							</div>
+						</div>
+						
+						<div id="logOutDeleteArea">
+							<button class="extraButton">Log Out</button>
+							<button class="extraButton" id="deleteButton" onClick="sendAlert()">Delete Account</button>
+						</div>
+					</div>
+					<div id="deletedAccountDiv" class="hiddenElement">
+						<h2 id="deletedAccountHeading1">Your Account Has Been Deleted.</h2>
+						<h3 id="deletedAccountHeading2">We're Sorry To See You Go!</h3>
+					</div>
+				</div>
+			</section>		
+			<footer>
+				<!-- Dynamically Added with headerFooter.js -->
+			</footer>
+		</div>
+	</div>
+	
+	<!-- javaScript -->
+	<script src="js/headerFooter.js" ></script>
+	<script src="js/myAccount.js" ></script>
+	
+	<!-- Full JQuery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

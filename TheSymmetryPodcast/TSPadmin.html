@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<!--
+Name: TSPadmin.html, (TSP Capstone)
+Author: Leboutillier
+Date Created: 26 JAN 2020
+Date Modified:
+-->
+<html lang="en">
+<head>
+	<!-- Meta for Bootstrap 4 -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<!-- Title for document -->
+	<title>Admin Portal | The Symmetry Podcast</title>
+	
+	<!-- External links -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	
+	<!-- Additional CSS -->
+	<link href="TspStyles.css" rel="stylesheet" type="text/css" />
+
+	<!-- Styles for this page -->
+	<style>
+		#mainTitle {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+		
+		#TSPadminNavButton {
+			text-decoration-line: underline;
+			text-decoration-style: double;
+		}
+		
+		
+		#adminOptionsFlexContainer,
+		#accountOptionsFlexContainer,
+		#messageOptionsFlexContainer,
+		#mp3OptionsFlexContainer {
+			max-width: 800px;
+			margin: auto;
+			padding: 5px 0px;
+			border-bottom: solid grey 2px;
+		
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-evenly;
+			
+			display: -webkit-box;
+			display: -moz-box;
+			display: -ms-flexbox;
+			display: -webkit-flex;
+			display: flex;
+		}
+		
+		#viewMessageButtons {		
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-evenly;
+			
+			display: -webkit-box;
+			display: -moz-box;
+			display: -ms-flexbox;
+			display: -webkit-flex;
+			display: flex;
+		}
+		
+		.adminOptionsBtn,
+		.editMessageBtn {
+			border: solid black 1px;
+			border-radius: 4px;
+			background-color: white;
+			font-size: 14px;
+			text-align: center;
+			height: 30px;
+			width: 130px;
+			margin: 10px 10px;
+		}
+		
+		.saveCancelMessageEditBtn {
+			border: solid black 1px;
+			border-radius: 4px;
+			background-color: white;
+			font-size: 14px;
+			text-align: center;
+			height: 30px;
+			width: 90px;
+			margin: 10px 10px;
+		}
+		
+		.accountOptionsBtn,
+		.messageOptionsBtn,
+		.mp3OptionsBtn {
+			border: solid black 1px;
+			border-radius: 4px;
+			background-color: white;
+			font-size: 14px;
+			text-align: center;
+			height: 30px;
+			width: 160px;
+			margin: 10px;
+		}
+		
+		button:hover {
+			background-color: lightgrey;
+		}
+		
+		#extraSpace {
+			margin-bottom: 280px;
+		}
+		
+		#allAccountsTable {
+			margin: 20px auto;
+			width: 95%;
+		}
+		
+		#messagesTable {
+			margin: 20px auto;
+			width: 90%;
+		}
+		
+		.listAllAccountsEditButton,
+		.listAllAccountsDeleteButton,
+		.viewMessageButton {
+			border: solid black 1px;
+			border-radius: 4px;
+			background-color: white;
+			text-align: center;
+			height: 20px;
+			width: 55px;
+		}
+	
+		td, th {
+			border-bottom: solid grey 1px;
+			padding: 3px;
+		}
+		
+		th {
+			background-color: #92b6d3;
+		}
+		
+		tr:hover {
+			background-color: wheat;
+		}
+		
+		#createAccountForm {
+			max-width: 350px;
+			margin: auto;
+		}
+		
+		input.text, select {
+			border: 1px solid grey;
+			border-radius: 4px;
+			padding: 0 15px;
+			height: 50px;
+			font-size: 14px;
+			width: 100%;
+			margin-bottom: 10px;
+			
+		}
+	
+		.accountChoiceHeader,
+		.messagesChoiceHeader {
+			text-align: center;
+			margin: 30px;
+		}
+		
+		.displayInfoField {			
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			align-items: center;
+			
+			display: -webkit-box;
+			display: -moz-box;
+			display: -ms-flexbox;
+			display: -webkit-flex;
+			display: flex;
+			
+			text-align: left;
+			border-bottom: solid grey 2px;
+			font-size: 15px;
+			max-width: 400px;
+			margin: auto;
+		}
+		
+		.infoTitleDiv {
+			width: 30%;
+			padding-left: 5px;
+			font-weight: bold;
+		}
+		
+		.infoDisplayDiv {
+			width: 55%;
+			padding-left: 5px;
+		}
+		
+		#individualMessageDisplayDiv {
+			 background-color: wheat;
+			 max-width: 800px;
+			 margin: 0px auto;
+			 padding: 20px;
+			 font-size: 15px;
+		}
+		
+		#editMessageStatusDiv,
+		#editMessageNoteDiv {
+			max-width: 40%;
+			margin: auto;
+			text-align: center;
+		}
+		
+		#editMessageNoteInput {
+			border: solid black 1px;
+			border-radius: 4px;
+			width: 90%;
+			padding: 5px;
+		}
+		
+		#accountNumberToEditQuestionForm {
+			background-color: wheat;
+			max-width: 400px;
+			margin: 20px auto;
+			text-align: center;
+			padding: 5px;
+		}
+		
+		#accountNumberToEdit {
+			border: solid black 1px;
+			border-radius: 4px;
+			background-color: white;
+			height: 25px;
+			width: 45px;
+			padding-left: 8px;
+		}
+		
+		.editAccountEditCancelBtn {
+			border: solid black 1px;
+			border-radius: 4px;
+			background-color: white;
+			height: 25px;
+			width: 60px;
+			margin: 10px 5px 5px 5px;
+		}
+		
+		.AccountEditSaveBtn {
+			border: solid black 1px;
+			border-radius: 4px;
+			background-color: white;
+			height: 20px;
+			width: 50px;
+			margin: 5px;
+		}
+		
+		.inputBox,
+		#regionInput,
+		#typeInput {
+			border: solid black 1px;
+			border-radius: 4px;
+			height: 22px;
+			width: 90%;
+			margin: 5px;
+			font-size: 15px;
+		}
+		
+		.editAccountEditCancelBtn:hover {
+			background-color: lightgrey;
+		}
+		
+		.editButtonDiv,
+		.showPasswordButtonDiv {
+			width: 15%;
+			text-align: center;
+		}
+			
+		
+		#cancelEditAnAccountBtnDiv{
+			margin: 10px auto;
+			max-width: 400px;
+			text-align: center;
+		}
+		
+	</style>
+</head>
+	
+<body>
+	<div id="bodyWrap">
+		<div>
+			<header>
+				<!-- Dynamically Added with headerFooter.js -->
+			</header>
+			<section>
+				<h1 id="mainTitle">Administrator Portal</h1>
+				<div class="flex-container" id="adminOptionsFlexContainer">
+					<button type="button" class="adminOptionsBtn" id="accountsBtn" onClick="toggleAccountsDiv()">Accounts</button>
+					<button type="button" class="adminOptionsBtn" id="messagesBtn" onClick="toggleMessagesDiv()">Messages</button>
+					<button type="button" class="adminOptionsBtn" id="mp3sBtn" onClick="toggleMp3sDiv()">MP3s</button>
+					<button type="button" class="adminOptionsBtn" id="logOutBtn">Log Out</button>
+				</div>
+				<div id="accountsDiv">
+					<div class="flex-container" id="accountOptionsFlexContainer">
+						<button type="button" class="accountOptionsBtn" id="viewAccountsBtn" onClick="viewAccounts()">View Accounts</button>
+						<button type="button" class="accountOptionsBtn" id="createAccountBtn" onclick="createAccountView()">Create an Account</button>
+						<button type="button" class="accountOptionsBtn" id="auditAccountBtn" onClick="askEditAccountNumber()">Edit an Account</button>
+					</div>
+					<div id="accountChoiceDiv">
+						<!-- Dynamically added with js/TSPadmin.js -->
+					</div>
+				</div>
+				<div id="messagesDiv">
+					<div class="flex-container" id="messageOptionsFlexContainer">
+						<button type="button" class="messageOptionsBtn" id="viewAllBtn" onClick="viewAllMessages()">View All</button>
+						<button type="button" class="messageOptionsBtn" id="viewUnaddressedBtn" onClick="viewUnaddressedMessages()">View Unaddressed</button>
+						<button type="button" class="messageOptionsBtn" id="viewAddressedBtn" onClick="viewAddressedMessages()">View Addressed</button>
+						<button type="button" class="messageOptionsBtn" id="viewTabledBtn" onClick="viewTabledMessages()">View Tabled</button>
+					</div>
+					<div id="messageChoiceDiv">
+						<!-- Dynamically added with js/TSPadmin.js -->
+					</div>
+				</div>
+				<div id="mp3sDiv">
+					<div class="flex-container" id="mp3OptionsFlexContainer">
+						<button type="button" class="mp3OptionsBtn" id="viewMP3Btn">View MP3s</button>
+						<button type="button" class="mp3OptionsBtn" id="addMP3Btn">Add an MP3</button>
+					</div>
+					<div id="mp3ChoiceDiv">
+						<!-- Dynamically added with js/TSPadmin.js -->
+					</div>
+				</div>
+				<div id="extraSpace"></div>
+			</section>			
+			<footer>
+				<!-- Dynamically Added with headerFooter.js -->
+			</footer>
+		</div>
+	</div>
+	
+	<!-- javaScript -->
+	<script src="js/headerFooter.js" ></script>
+	<script src="js/TSPadmin.js" ></script>
+	
+	<!-- Full JQuery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

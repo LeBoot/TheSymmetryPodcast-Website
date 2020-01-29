@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<!--
+Name: home.html, (TSP Capstone)
+Author: Leboutillier
+Date Created: 19 JAN 2020
+Date Modified:
+-->
+<html lang="en">
+<head>
+	<!-- Meta for Bootstrap 4 -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<!-- Title for document -->
+	<title>Home | The Symmetry Podcast</title>
+	
+	<!-- External links -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	
+	<!-- Additional CSS -->
+	<link href="TspStyles.css" rel="stylesheet" type="text/css" />
+
+	<!-- Styles for this page -->
+	<style>
+	
+	#missionStatement {
+		padding-top: 20px;
+		font-size: 30px;
+		font-weight: bold;
+		text-align: center;
+		width: 90%;
+		max-width: 740px;
+		margin: auto;
+	}
+	
+	#navChoices {
+		display: none;
+	}
+	
+	#TspLogo {
+		padding-bottom: 65px;
+	}
+	
+	#flexBox {
+		width: 90%;
+		margin: auto;
+		padding-top: 20px;
+		
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-evenly;
+		
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+	}
+	
+	.flexAnchor {
+		border: solid black 2px;
+		width: 400px;
+		background-color: lightblue;
+		
+		margin: 30px 10px 50px 10px;
+		
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		align-items: center;
+		
+		display: -webkit-box;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+	
+	}
+	
+	.flexAnchor:hover {
+		text-decoration: none;
+		background-color: #8ac7db;
+		border: solid black 3px;
+		font-weight: bold;
+	}
+	
+	.flexAnchor a:visited {
+		text-decoration: none !important;
+		
+	}
+	
+	.flexAnchor:selected {
+		text-decoration: none !important;
+	}
+	
+	.imageDiv {		
+		width: 40%;
+		border-right: solid black 2px;
+	}
+	
+	.textDiv {		
+		width: 60%;
+		padding: 20px;
+		
+	}
+	
+	.thumbnailPic {
+		max-width: 100%
+	}
+	
+	.textByThumbnail {
+		text-align: center;
+		font-size: 30px;
+		color: black;
+	}
+	
+	#errorBox {
+		display: none;
+		
+		text-align: center;
+		font-size: 32px;
+		color: red;
+		border: 2px solid red;
+		border-radius: 4px;
+		background-color: #ffe6e6;
+		margin: 10px 0px;
+		padding-top: 5px;
+	}
+	
+	</style>
+</head>
+	
+<body>
+	<div id="bodyWrap">
+		<div id="errorBox">
+			<noscript>This Website Will Not Function Properly Unless JavaScript Is Enabled</noscript>
+		</div>
+		<div>
+			<header>
+				<!-- Dynamically Added with headerFooter.js -->
+			</header>
+			<section>
+				<p id="missionStatement">A home for conversations about faith and humanity that are designed to help people grow.</p>
+				<div id="flexBox" class="flex-container">
+					<a class="flex-container flexAnchor" href="listen.html">
+						<div class="imageDiv">
+							<img src="Images/ThumbHeadphones.JPG" alt="Picture of headphones" class="thumbnailPic"/>
+						</div>
+						<div class="textDiv">
+							<p class="textByThumbnail">Listen To Episodes</p>
+						</div>
+					</a>
+					
+					<a class="flex-container flexAnchor" href="blog.html">
+						<div class="imageDiv">
+							<img src="Images/ThumbQuill.JPG" alt="Picture of parchment and quill" class="thumbnailPic"/>
+						</div>
+						<div class="textDiv">
+							<p class="textByThumbnail">Read Our Blog</p>
+						</div>
+					</a>
+					
+					<a class="flex-container flexAnchor" href="about.html">
+						<div class="imageDiv">
+							<img src="Images/ThumbMicrophone.JPG" alt="Picture of microphone" class="thumbnailPic"/>
+						</div>
+						<div class="textDiv">
+							<p class="textByThumbnail">Learn About Us</p>
+						</div>
+					</a>
+					
+					<a class="flex-container flexAnchor" href="contact.html">
+						<div class="imageDiv">
+							<img src="Images/ThumbPaperPlane.JPG" alt="Picture of paper plane flying" class="thumbnailPic"/>
+						</div>
+						<div class="textDiv">
+							<p class="textByThumbnail">Send A Message</p>
+						</div>
+					</a>
+				</div>
+			</section>			
+			<footer>
+				<!-- Dynamically Added with headerFooter.js -->
+			</footer>
+		</div>
+	</div>
+	
+	<!-- javaScript -->
+	<script src="js/headerFooter.js" ></script>
+	
+	<!-- Full JQuery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

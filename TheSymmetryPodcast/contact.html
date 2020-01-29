@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!--
+Name: contact.html, (TSP Capstone)
+Author: Leboutillier
+Date Created: 19 JAN 2020
+Date Modified:
+-->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="TspStyles.css" rel="stylesheet" type="text/css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<title>Contact | The Symmetry Podcast</title>
+	<style>
+	#pageContent {
+		text-align: center;
+		max-width: 400px;
+		margin: auto;
+		padding-top: 30px;
+		padding-bottom: 60px;
+	
+	}
+	
+	input.text,
+	select,
+	textarea {
+		border: 1px solid grey;
+		border-radius: 4px;
+		padding: 0 15px;
+		height: 50px;
+		width: 92%;
+		font-size: 14px;
+		margin-bottom: 15px;
+	}
+	
+	textarea {
+		height: 150px;
+		padding-top: 15px;
+	}
+	
+	#contactButtonArea {
+		margin-bottom: 25px;
+	}	
+	
+	#contactTitle {
+		margin-bottom: 20px;
+	}
+	
+	button {
+		border: 1px solid grey;
+		font-size: 16px;
+		font-weight: bold;
+		background-color:white;
+		color: black;
+		border-radius: 4px;
+		padding: 8px 14px;
+		font-family: arial;
+	}
+	
+	#contactNavButton {
+			text-decoration-line: underline;
+			text-decoration-style: double;
+	}
+		
+		#thankYouPt1 {
+			text-align: center;
+			font-size: 40px;
+			margin: 50px 0px 5px 0px;
+		}
+		
+		#thankYouPt2 {
+			text-align: center;
+			font-size: 30px;
+			margin: 5px 0px 300px 0px;
+		}
+		
+	</style>
+</head>
+		
+<body>
+	<div id="bodyWrap">
+		<div>
+			<header>
+				<!-- Dynamically Added with headerFooter.js -->
+			</header>
+			<section>
+				<div id="pageContent">
+				<h1 id="contactTitle">Contact Us</h1>
+					<form id="contactForm">
+						<div>
+							<div id="nameArea">
+								<input type="text" class="text full-width" placeholder="Name*" id="nameInput" required>
+							</div>
+							<div id="emailArea">
+								<input type="email" class="text full-width" placeholder="Email*" id="emailInput" required>
+							</div>
+							<div id="messageArea">
+								<textarea type="text" class="text full-width" placeholder="What's your message?*" id="messageInput" required></textarea>
+							</div>	
+							<div id="regionArea">
+								<select id="regionInput" required>
+									<!-- Dynamically added with contact.js -->
+								</select>
+							</div>				
+							<div id="contactButtonArea">
+								<button type="button" onClick="submitClicked()">Submit</button>
+							</div>
+						</div>
+					</form>
+					<div id="thankYouDiv">
+						<!-- dynamically added with submitClicked() -->
+					</div>
+				</div>
+			</section>
+			<footer>
+				<!-- Dynamically Added with headerFooter.js -->
+			</footer>
+		</div>
+	</div>
+	
+	<!-- javaScript -->
+	<script src="js/headerFooter.js" ></script>
+	<script src="js/contact.js" ></script>
+	
+	<!-- Full JQuery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
