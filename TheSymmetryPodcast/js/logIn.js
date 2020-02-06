@@ -2,43 +2,91 @@
 Name: logIn.js, (TSP Capstone)
 Author: Leboutillier
 Date Created: 27 JAN 2020
-Date Modified:
+Date Modified: 6 FEB 2020
 */
 
 /*
-This document contains the code to verify and submit information from the logIn page.
-Additionally, it modifies the session-status-div
+1) This document contains the code to verify and submit information from the log-in page.
+2) If call is successful, it redirects to the home page
+
 */
 
 /* TO DO LIST
-1) 
+1) POST method (success) not working on the back-end
 */
 
 
-//VARIABLES ------------------------------------------------------------
+//ERROR DIV -------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
+function addToErrorDiv(Message) {
+		
+	$(".errorDiv").append(
+		'<p class="alert alert-danger">' + Message + '</p>'
+	);
+	
+}
+
+function emptyErrorDiv() {
+	$(".errorDiv").empty();
+}
 
 
-
-//DOCUMENT READY -------------------------------------------------------
+//DOCUMENT READY --------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
 $(document).ready(function () {	
+
+	emptyErrorDiv();
 
 }) //End Document Ready
 
+
+
+//HANDLE LOGIN ATTMEPT --------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
 function logInRequested() {
+	
+	emptyErrorDiv();
+	
+	var proceedWithAjaxCall = true;
 	
 	var attemptedUsername = document.getElementById("userNameInput").value;
 	var attemptedPassword = document.getElementById("passwordInput").value;
 	
+	if ((attemptedUsername.length < 2) || (attemptedUsername.length > 15)) {
+		addToErrorDiv("A valid username must be between 2 and 15 characters");
+		proceedWithAjaxCall = false;
+	}
+	if ((attemptedUsername.length < 2) || (attemptedUsername.length > 15)) {
+		addToErrorDiv("A valid username must be between 2 and 15 characters");
+		proceedWithAjaxCall = false;
+	}
 	
-	//AJAX Post call: send the attempted values; return user (with status) or something different if the user is not found
+	if (proceedWithAjaxCall == true) {
+		AJAXcallToVerifyInput(attemptedUsername, attemptedPassword);
+	}
 	
+}
+
+function AJAXcallToVerifyInput(attemptedUsername, attemptedPassword) {
 	
-	if (userType == 1) {
-		$(".sessionStatusDiv").html("LIN");
-	} else if (userType == 2) {
-		$(".sessionStatusDiv").html("LAM");
-	} else {
-		//message, sorry--- not found
-	}	
+	$.ajax({
+		type: 'POST',
+		url: 'http://localhost:8080/session-status/login',
+		data: JSON.stringify({
+			inputUsername: attemptedUsername,
+			inputPassword : attemptedPassword
+		}),
+		headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+		success: function() {
+			emptyErrorDiv();
+			window.location.href = 'home.html';
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			addToErrorDiv("That username, password, or both are incorrect.");
+        }
+	});
 	
 }

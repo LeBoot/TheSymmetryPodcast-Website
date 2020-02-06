@@ -21,6 +21,10 @@ function addToErrorDiv(Message) {
 	
 }
 
+function emptyErrorDiv() {
+	$(".errorDiv").empty();
+}
+
 
 //DOCUMENT READY --------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
@@ -30,13 +34,12 @@ $(document).ready(function () {
 
 function logOutFromWebsite() {
 
-	$(".errorDiv").empty();
+	emptyErrorDiv();
 
 	$.ajax({
         type: 'GET',
         url: 'http://localhost:8080/session-status/logout',
         success: function(String) {
-			console.log(String);
 			window.location.href = 'home.html';
         },
         error: function (jqXHR, textStatus, errorThrown) {

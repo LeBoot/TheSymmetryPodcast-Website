@@ -2,7 +2,7 @@
 Name: contact.js, (TSP Capstone)
 Author: Leboutillier
 Date Created: 27 JAN 2020
-Date Modified: 5 FEB 2020
+Date Modified: 6 FEB 2020
 */
 
 /*
@@ -21,12 +21,16 @@ function addToErrorDiv(Message) {
 	
 }
 
+function emptyErrorDiv() {
+	$(".errorDiv").empty();
+}
+
 
 //DOCUMENT READY --------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
 $(document).ready(function () {
 	
-	$(".errorDiv").empty();
+	emptyErrorDiv();
 	
 	$("#nameArea").empty();
 	$("#nameArea").html(`<input type="text" class="text full-width" placeholder="Name*" id="nameInput" required>`);
@@ -71,7 +75,7 @@ function configureDropdownAjaxCall() {
             })
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("Failure to load regions from database into dropdown box.");
+            addToErrorDiv("Failure to load regions from database into dropdown box.");
         }
     });
 
@@ -89,7 +93,7 @@ function submitClicked() {
 	const inputRegion = document.getElementById("regionInput").value;
 	var isInputValid = true;
 	
-	$(".errorDiv").empty();
+	emptyErrorDiv();
 	
 	if ((inputName.length < 2) || (inputName.length > 49)) {
 		isInputValid = false;
@@ -106,6 +110,15 @@ function submitClicked() {
 	if (inputRegion == "Default") {
 		isInputValid = false;
 		addToErrorDiv("You must select a region.");
+	}
+	
+	if (
+		(inputName.includes("<")) || inputName.includes(">") || inputName.includes("\`") || inputName.includes("\"") || inputName.includes("\'") || inputName.includes("\\") ||
+		(inputEmail.includes("<")) || inputEmail.includes(">") || inputEmail.includes("\`") || inputEmail.includes("\"") || inputEmail.includes("\'") || inputEmail.includes("\\") ||
+		(inputMessage.includes("<")) || inputMessage.includes(">") || inputMessage.includes("\`") || inputMessage.includes("\"") || inputMessage.includes("\'") || inputMessage.includes("\\")
+		) {
+		isInputValid = false;
+		addToErrorDiv("Sorry, but your input cannot contain characters such as <, >, \`, \", \', \\, etc.");
 	}
 
 	if (isInputValid == true) {
@@ -140,7 +153,7 @@ function submitMessageAJAXCall(inputName, inputEmail, inputMessage, inputRegion)
 			displayThankYouMessage();
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
-            alert('Unfortunately that message did not go through.');
+            addToErrorDiv('Whoops!  Something happened on our end, and unfortunately that message did not go through.');
         }
 	});
 

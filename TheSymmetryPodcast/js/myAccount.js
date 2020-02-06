@@ -20,6 +20,27 @@ This document contains the code to make an interactive myAccount page.
 7) Tie Delete Function to BackEnd
 */
 
+//ERROR DIV -------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
+function addToErrorDiv(Message) {
+		
+	$(".errorDiv").append(
+		'<p class="alert alert-danger">' + Message + '</p>'
+	);
+	
+}
+
+function emptyErrorDiv() {
+	$(".errorDiv").empty();
+}
+
+//DOCUMENT READY -------------------------------------------------------
+$(document).ready(function () {
+	
+	fillFields();
+
+}) //End Document Ready
+
 
 //VARIABLES ------------------------------------------------------------
 const blockedOutPassword = "*******";
@@ -29,14 +50,6 @@ var email = "JJ@website.com";
 var username = "JohnnyJ";
 var password = "JJRULES";
 var region = "Europe";
-
-
-//DOCUMENT READY -------------------------------------------------------
-$(document).ready(function () {
-	
-	fillFields();
-
-}) //End Document Ready
 
 
 //FUNCTIONS CALLED FROM DOCUMENT READY ----------------------------------------------------

@@ -2,7 +2,7 @@
 Name: headerFooter.js, (TSP Capstone)
 Author: Leboutillier
 Date Created: 24 JAN 2020
-Date Modified: 5 FEB 2020
+Date Modified: 6 FEB 2020
 */
 
 /*
@@ -19,24 +19,27 @@ function addToErrorDiv(Message) {
 	
 }
 
+function emptyErrorDiv() {
+	$(".errorDiv").empty();
+}
+
 
 //DOCUMENT READY --------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
 $(document).ready(function () {
 	
 	//clear errors
-	$(".errorDiv").empty();
+	emptyErrorDiv();
 	
 	//header
-	//AJAXcallForSessionStatus();
+	AJAXcallForSessionStatus();
 
 	//footer
 	addFooter();
 	
 	
-	
 	//just for testing
-	displayAllHeader();
+	//displayAllHeader();
 
 })
 
@@ -47,14 +50,22 @@ function AJAXcallForSessionStatus() {
 	$.ajax({
         type: 'GET',
         url: 'http://localhost:8080/session-status/get',
-        success: function(String) {
-			addHeader(String);
+        success: function(SessionStats) {
+			emptyErrorDiv();
+			addToAccountIdDiv(SessionStats.rbCurrentAccount);
+			addHeader(SessionStats.rbSessionStatus);
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            addHeader("USER");
+			addHeader("USER");
 			addToErrorDiv("Session Status is not loading from the back-end.");
         }
     });	
+	
+}
+
+function addToAccountIdDiv(userAccountNum) {
+	console.log("Account Number: " + userAccountNum);
+	$(".accountIdDiv").text(userAccountNum);
 	
 }
 
@@ -106,7 +117,7 @@ function displayAdminHeader() {
 	$("header").html(
 	
 		`<div id="logInBoxes">
-			<div style="background-color: plum; max-width: 1300px; margin: 5px 30px; text-align: center; padding: 2px 5px;">
+			<div style="background-color: plum; max-width: 1300px; margin: 5px 30px; text-align: center; padding: 2px 5px; border-radius: 4px;">
 				You are logged in as an administrator.
 			</div>
 			<nav>

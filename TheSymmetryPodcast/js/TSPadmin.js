@@ -17,7 +17,7 @@ Date Modified: 4 FEB 2020
 
 */
 
-//ERROR DIV ----------------------------------------------------------------------------------------------------
+//ERROR DIV ---------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------
 function addToErrorDiv(Message) {
 		
@@ -27,14 +27,26 @@ function addToErrorDiv(Message) {
 	
 }
 
+function emptyErrorDiv() {
+	$(".errorDiv").empty();
+}
+
 
 //DOCUMENT READY -----------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------
 $(document).ready(function () {
 	
+	redirectIfNecessary();
+	emptyErrorDiv();
 	hideAllDivs();
 
 }) //End Document Ready
+
+function redirectIfNecessary() {
+
+	//AJAX call:  give account number from div, and ask if it is an administrator; if yes, good to go; if no, redirect to logIn page
+	
+}
 
 
 //TOGGLE PRIMARY OPTIONS ---------------------------------------------------------------------------------------
@@ -255,15 +267,19 @@ function prepMessageChoiceDiv(prompt) {
 	
 		`<h3 class="messagesChoiceHeader">` + prompt + `</h3>
 		<table id="messagesTable">
-			<tr>
-				<th width="5%">ID</th>
-				<th width="22%">Name</th>
-				<th width="22%">Email</th>
-				<th width="12%">Region</th>
-				<th width="15%">TimeStamp</th>
-				<th width="14%">Status</th>
-				<th width="10%"></th>
-			</tr>
+			<thead>
+				<tr>
+					<th width="5%">ID</th>
+					<th width="22%">Name</th>
+					<th width="22%">Email</th>
+					<th width="12%">Region</th>
+					<th width="15%">TimeStamp</th>
+					<th width="14%">Status</th>
+					<th width="10%"></th>
+				</tr>
+			</thead>
+			<tbody  id="messageTableBody">
+			</tbody>
 		</table>`
 	
 	);
@@ -287,7 +303,7 @@ function getAllMessagesAJAXCall() {
         url: 'http://localhost:8080/contact/messages/all',
         success: function(messagesArray) {
             //get a reference to the table to append
-            var tableToAppend = $('#messagesTable');
+            var tableToAppend = $('#messageTableBody');
 
             //go through each of the returned values and append
             $.each(messagesArray, function(index, message) {
@@ -301,7 +317,7 @@ function getAllMessagesAJAXCall() {
 				htmlToAdd += '<td><button type="button" class="viewMessageButton" onClick="viewMessage(' + message.contactid + ', 0)">View</button></td>';
 				htmlToAdd += '</tr>';
 				
-				tableToAppend.append(htmlToAdd);
+				tableToAppend.prepend(htmlToAdd);
             })
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -317,7 +333,7 @@ function getSomeMessagesAJAXCall(originalLocation) {
         url: 'http://localhost:8080/contact/messages/' + originalLocation,
         success: function(messagesArray) {
             //get a reference to the table to append
-            var tableToAppend = $('#messagesTable');
+            var tableToAppend = $('#messageTableBody');
 
             //go through each of the returned values and append
             $.each(messagesArray, function(index, message) {
@@ -332,7 +348,7 @@ function getSomeMessagesAJAXCall(originalLocation) {
 					+ originalLocation + ')">View</button></td>';
 				htmlToAdd += '</tr>';
 				
-				tableToAppend.append(htmlToAdd);
+				tableToAppend.prepend(htmlToAdd);
             })
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -421,7 +437,7 @@ function editMessageStatusBtn(messageID, originalLocation) {
 	
 		`<h3>Edit Status</h3>
 		<form>
-			<select id="selectMessageStatus">
+			<select id="selectMessageStatus" style="background-color: white;">
 				<option value="1">Unaddressed</option>
 				<option value="2">Addressed</option>
 				<option value="3">Tabled</option>
@@ -493,7 +509,11 @@ function saveEditMessageNote(messageID, originalLocation) {
 
 	if (newNote.length > 5000) {
 		addToErrorDiv("Your note may not exceed 5000 characters.");
-	} else {
+	}
+	if ((newNote.includes("<")) || newNote.includes(">") || newNote.includes("\`") || newNote.includes("\"") || newNote.includes("\'") || newNote.includes("\\")) {
+		addToErrorDiv("Sorry, but your input cannot contain characters such as <, >, \`, \", \', \\, etc.");
+	}	
+	else {
 		AJAXCallEditMessageNote(messageID, newNote, originalLocation);
 	}
 	
