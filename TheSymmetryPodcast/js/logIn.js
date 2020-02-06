@@ -6,7 +6,8 @@ Date Modified:
 */
 
 /*
-This document contains the code to verify and submit information from the logIn page
+This document contains the code to verify and submit information from the logIn page.
+Additionally, it modifies the session-status-div
 */
 
 /* TO DO LIST
@@ -24,10 +25,20 @@ $(document).ready(function () {
 }) //End Document Ready
 
 function logInRequested() {
-
+	
 	var attemptedUsername = document.getElementById("userNameInput").value;
 	var attemptedPassword = document.getElementById("passwordInput").value;
 	
-	boolean isLogInValid = false;
+	
+	//AJAX Post call: send the attempted values; return user (with status) or something different if the user is not found
+	
+	
+	if (userType == 1) {
+		$(".sessionStatusDiv").html("LIN");
+	} else if (userType == 2) {
+		$(".sessionStatusDiv").html("LAM");
+	} else {
+		//message, sorry--- not found
+	}	
 	
 }

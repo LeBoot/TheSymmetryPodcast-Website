@@ -2,22 +2,34 @@
 Name: TSPadmin.js, (TSP Capstone)
 Author: Leboutillier
 Date Created: 26 JAN 2020
-Date Modified:
+Date Modified: 4 FEB 2020
 */
 
 /*
-This document contains the code to make an interactive TSPadmin page.
-1) There are three main options: "view accounts", "view messages", and "view mp3s"
+1) This document contains the code to make an interactive TSPadmin page.
+2) There are three main options: "view accounts", "view messages", and "view mp3s"
 	- each option will present the user with a new group of selections
 */
 
 /* TO DO LIST
-1)
+1) Toggle account
+2) Toggle MP3
 
 */
 
+//ERROR DIV ----------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------
+function addToErrorDiv(Message) {
+		
+	$(".errorDiv").append(
+		'<p class="alert alert-danger">' + Message + '</p>'
+	);
+	
+}
 
-//DOCUMENT READY -------------------------------------------------------
+
+//DOCUMENT READY -----------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------
 $(document).ready(function () {
 	
 	hideAllDivs();
@@ -25,7 +37,8 @@ $(document).ready(function () {
 }) //End Document Ready
 
 
-//TOGGLE PRIMARY OPTIONS -----------------------------------------------
+//TOGGLE PRIMARY OPTIONS ---------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------
 function hideAllDivs() {
 	$("#messagesDiv").hide();
 	$("#mp3sDiv").hide();
@@ -56,7 +69,8 @@ function toggleMp3sDiv() {
 }
 
 
-//TOGGLE ACCOUNT OPTIONS -----------------------------------------------------
+//TOGGLE ACCOUNT OPTIONS ---------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------
 
 function viewAccounts() {	
 	
@@ -210,11 +224,12 @@ function goBackToViewAccounts() {
 	viewAccounts();
 }
 
-//TOGGLE MESSAGE OPTIONS -----------------------------------------------------
+//TOGGLE MESSAGE OPTIONS ---------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------
 
 function viewAllMessages() {
 	prepMessageChoiceDiv("View All Messages");
-	appendMessageTable();
+	appendMessageTable(0);
 }
 
 function viewUnaddressedMessages() {
@@ -255,79 +270,135 @@ function prepMessageChoiceDiv(prompt) {
 }
 
 function appendMessageTable(statusIdentification) {
-	var dummyID = 1;
-	var dummyName = "John Johnson";
-	var dummyEmail = "JJohnson@website.com";
-	var dummyRegion = "North America";
-	var dummyTimestamp = "2019-05-05 08:12:12";
-	var dummyStatus = "unaddressed";	
 	
-	/*
-	If statusIdentification == 0 --> AJAX call for all.
-	If statusIdentification == 1 --> AJAX call for unaddressed.
-	If statusIdentification == 2 --> AJAX call for addressed.
-	If statusIdentification == 3 --> AJAX call for tabled.
-	
-	*/
-	
-	
-	$("#messagesTable").append(
-	
-		`<tr>
-			<td>` + dummyID + `</td>
-			<td>` + dummyName + `</td>
-			<td>` + dummyEmail + `</td>
-			<td>` + dummyRegion + `</td>
-			<td>` + dummyTimestamp + `</td>
-			<td>` + dummyStatus + `</td>
-			<td><button type="button" class="viewMessageButton" onClick="viewMessage(` + dummyID + `, ` + statusIdentification + `)">View</button></td>
-		</tr>`
-	
-	);
+	if (statusIdentification == 0) {
+		getAllMessagesAJAXCall();
+	}
+	else {	
+		getSomeMessagesAJAXCall(statusIdentification);
+	}
 	
 }
 
-function viewMessage(thisMessageID, statusIdentification) {
+function getAllMessagesAJAXCall() {
+
+	$.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/contact/messages/all',
+        success: function(messagesArray) {
+            //get a reference to the table to append
+            var tableToAppend = $('#messagesTable');
+
+            //go through each of the returned values and append
+            $.each(messagesArray, function(index, message) {
+                var htmlToAdd = '<tr>';
+				htmlToAdd += '<td>' + message.contactid + '</td>';
+				htmlToAdd += '<td>' + message.myName + '</td>';
+				htmlToAdd += '<td>' + message.myEmail + '</td>';
+				htmlToAdd += '<td>' + message.region.regionName + '</td>';
+				htmlToAdd += '<td>' + message.timeStamp + '</td>';
+				htmlToAdd += '<td>' + message.contactStatus.contactStatusName + '</td>';
+				htmlToAdd += '<td><button type="button" class="viewMessageButton" onClick="viewMessage(' + message.contactid + ', 0)">View</button></td>';
+				htmlToAdd += '</tr>';
+				
+				tableToAppend.append(htmlToAdd);
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("Failure to load messages from database into table.");
+        }
+    });	
+
+}
+
+function getSomeMessagesAJAXCall(originalLocation) {
+	$.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/contact/messages/' + originalLocation,
+        success: function(messagesArray) {
+            //get a reference to the table to append
+            var tableToAppend = $('#messagesTable');
+
+            //go through each of the returned values and append
+            $.each(messagesArray, function(index, message) {
+                var htmlToAdd = '<tr>';
+				htmlToAdd += '<td>' + message.contactid + '</td>';
+				htmlToAdd += '<td>' + message.myName + '</td>';
+				htmlToAdd += '<td>' + message.myEmail + '</td>';
+				htmlToAdd += '<td>' + message.region.regionName + '</td>';
+				htmlToAdd += '<td>' + message.timeStamp + '</td>';
+				htmlToAdd += '<td>' + message.contactStatus.contactStatusName + '</td>';
+				htmlToAdd += '<td><button type="button" class="viewMessageButton" onClick="viewMessage(' + message.contactid + ', ' 
+					+ originalLocation + ')">View</button></td>';
+				htmlToAdd += '</tr>';
+				
+				tableToAppend.append(htmlToAdd);
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("Failure to load messages from database into table.");
+        }
+    });	
+
+}
+
+function viewMessage(thisMessageID, originalLocation) {
 	
-	$("#messageChoiceDiv").html("");
+	$("#messageChoiceDiv").empty();
 	
-	$("#messageChoiceDiv").html(
-	
-		`<h3 class="messagesChoiceHeader">View A Message</h3>				
-		<div id="individualMessageDisplayDiv">
-			<div class="messageDetails"><b>Message ID: </b>2</div>
-			<div class="messageDetails"><b>Name: </b>Jack Jackson</div>
-			<div class="messageDetails"><b>Email: </b>IAmJack@longwebsitenamehere.com</div>
-			<div class="messageDetails"><b>Region: </b>South America</div>
-			<div class="messageDetails"><b>Timestamp: </b>2019-09-12 12:12:12</div>
-			<div class="messageDetails"><b>Status: </b>Unaddressed</div>
-			<div class="messageNotesText"><b>Notes: </b> some text here </div>
-			<div class="messageText"><b>Message: </b> some text here </div>
-			<div class="flex-container" id="viewMessageButtons" style="margin-top: 10px;">
-				<button type="button" class="editMessageBtn" onClick="editMessageStatusBtn(` + thisMessageID + `)">Edit Status</button>
-				<button type="button" class="editMessageBtn" onClick="editMessageNotesBtn(` + thisMessageID + `)">Edit Notes</button>
-				<button type="button" class="editMessageBtn" onClick="returnToPrevious(` + statusIdentification + `)">Back</button>
-			</div>
-			<div id="editMessageStatusDiv">
-				<!-- html dynamically added with TSPadmin.js -->
-			</div>
-				<div id="editMessageNoteDiv">
-				<!-- html dynamically added with TSPadmin.js -->
-			</div>
-		</div>`
-	
-	);
+	$.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/contact/messages/get-by-id/' + thisMessageID,
+        success: function(message) {
+			
+			var incomingNote = message.notes;
+			if (incomingNote == null) {
+				incomingNote = "None.";
+			}
+				
+			$("#messageChoiceDiv").html(
+				
+				`<h3 class="messagesChoiceHeader">View A Message</h3>				
+				<div id="individualMessageDisplayDiv">
+					<div class="messageDetails"><b>Message ID: </b>` + thisMessageID + `</div>
+					<div class="messageDetails"><b>Name: </b>` + message.myName + `</div>
+					<div class="messageDetails"><b>Email: </b>` + message.myEmail + `</div>
+					<div class="messageDetails"><b>Region: </b>` + message.region.regionid + `</div>
+					<div class="messageDetails"><b>Timestamp: </b>` + message.timeStamp + `</div>
+					<div class="messageDetails"><b>Status: </b>` + message.contactStatus.contactStatusName + `</div>
+					<div class="messageNotesText"><b>Notes: </b>` + incomingNote + `</div>
+					<div class="messageText"><b>Message: </b>` + message.messageText + `</div>
+					<div class="flex-container" id="viewMessageButtons" style="margin-top: 10px;">
+						<button type="button" class="editMessageBtn" onClick="editMessageStatusBtn(` + thisMessageID + `, ` + originalLocation + `)">Edit Status</button>
+						<button type="button" class="editMessageBtn" onClick="editMessageNotesBtn(` + thisMessageID + `, ` + originalLocation + `, '` + incomingNote + `')">Edit Notes</button>
+						<button type="button" class="editMessageBtn" onClick="returnToPrevious(` + originalLocation + `)">Back</button>
+					</div>
+					<div id="editMessageStatusDiv">
+						<!-- html dynamically added with TSPadmin.js -->
+					</div>
+						<div id="editMessageNoteDiv">
+						<!-- html dynamically added with TSPadmin.js -->
+					</div>
+				</div>`
+				
+			);
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("Failure to load message from database.");
+        }
+    });
 	
 }
 
-function returnToPrevious(statusIdentification) {
-	if (statusIdentification == 1) {
+function returnToPrevious(originalLocation) {
+	if (originalLocation == 1) {
 		viewUnaddressedMessages();
 	}
-	else if (statusIdentification == 2) {
+	else if (originalLocation == 2) {
 		viewAddressedMessages();
 	}
-	else if (statusIdentification == 3) {
+	else if (originalLocation == 3) {
 		viewTabledMessages();
 	}
 	else {
@@ -343,7 +414,7 @@ function cancelEditMessageNote() {
 	$("#editMessageNoteDiv").empty();
 }
 
-function editMessageStatusBtn(messageID) {
+function editMessageStatusBtn(messageID, originalLocation) {
 	$("#editMessageNoteDiv").empty();
 	
 	$("#editMessageStatusDiv").html(
@@ -356,7 +427,7 @@ function editMessageStatusBtn(messageID) {
 				<option value="3">Tabled</option>
 			</select>
 			<div>
-				<button type="button" class="saveCancelMessageEditBtn" id="saveMessageEditStatus" onClick="saveEditMessageStatus(` + messageID + `)">Save</button>
+				<button type="button" class="saveCancelMessageEditBtn" id="saveMessageEditStatus" onClick="saveEditMessageStatus(` + messageID + `, ` + originalLocation + `)">Save</button>
 				<button type="button" class="saveCancelMessageEditBtn" id="cancelMessageEditStatus" onClick="cancelEditMessageStatus()">Cancel</button>
 			</div>
 		</form>`
@@ -364,28 +435,21 @@ function editMessageStatusBtn(messageID) {
 	);
 }
 
-function saveEditMessageStatus(messageID) {
-	var newStatus = document.getElementById("selectMessageStatus").value;
-	
-	//AJAX call to persist data with messageID and updated info
-	
-	alert("The new status has been saved.");
-	
-	$("#editMessageStatusDiv").empty();
-	
-}
 
-function editMessageNotesBtn(messageID) {
+function editMessageNotesBtn(messageID, originalLocation, messageNotes) {
 	$("#editMessageStatusDiv").empty();
+	
+	console.log("editMessageNotesBtn function: " + messageNotes);
 	
 	$("#editMessageNoteDiv").html(
 	
 		`<h3>Edit Note</h3>
 		<form>
 			<textarea style="display:none;"></textarea> <!-- Need this for some reason to format the textarea below -->
-			<textarea type="text" placeholder="Type note here." id="editMessageNoteInput"></textarea>
+			<textarea type="text" id="editMessageNoteInput">` + messageNotes + `</textarea>
+
 			<div>
-				<button type="button" class="saveCancelMessageEditBtn" id="saveMessageEditNote" onClick="saveEditMessageNote(` + messageID + `)">Save</button>
+				<button type="button" class="saveCancelMessageEditBtn" id="saveMessageEditNote" onClick="saveEditMessageNote(` + messageID + `, ` + originalLocation + `)">Save</button>
 				<button type="button" class="saveCancelMessageEditBtn" id="cancelMessageEditNote" onClick="cancelEditMessageNote()">Cancel</button>
 			</div>
 		</form>`
@@ -393,32 +457,81 @@ function editMessageNotesBtn(messageID) {
 	);
 }
 
-function saveEditMessageNote(messageID) {
+function saveEditMessageStatus(messageID, originalLocation) {
+	var newStatus = document.getElementById("selectMessageStatus").value;
+	
+	AJAXCallEditMessageStatus(messageID, newStatus, originalLocation);
+	
+}
+
+function AJAXCallEditMessageStatus(messageID, newStatus, originalLocation) {
+	
+	$.ajax({
+		type: 'POST',
+		url: 'http://localhost:8080/contact/edit-message/status',
+		data: JSON.stringify({
+			contactId: messageID,
+			rbStatusId: newStatus
+		}),
+		headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+		success: function() {
+			viewMessage(messageID, originalLocation);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+            alert('Unfortunately that edit did not go through.');
+        }
+	});	
+	
+}
+
+
+function saveEditMessageNote(messageID, originalLocation) {
 	var newNote = document.getElementById("editMessageNoteInput").value;
-	
-	if (newNote == "") {
-	
-	}
-	else {
-	
-		//AJAX call to persist data with messageID and updated info
-		
-		alert("The new note has been saved.");
+
+	if (newNote.length > 5000) {
+		addToErrorDiv("Your note may not exceed 5000 characters.");
+	} else {
+		AJAXCallEditMessageNote(messageID, newNote, originalLocation);
 	}
 	
-	$("#editMessageNoteDiv").empty();
+}
+
+function AJAXCallEditMessageNote(messageID, newNote, originalLocation) {
 	
+	$.ajax({
+		type: 'POST',
+		url: 'http://localhost:8080/contact/edit-message/note',
+		data: JSON.stringify({
+			contactId: messageID,
+			rbNotes: newNote
+		}),
+		headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+		success: function() {
+			viewMessage(messageID, originalLocation);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+            alert('Unfortunately that edit did not go through.');
+        }
+	});	
 	
 }
 
 
 
-//TOGGLE MP3 OPTIONS ---------------------------------------------------------
+//TOGGLE MP3 OPTIONS -------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------
 
 
 
 
-//EDIT ACCOUNT FUNCTIONALITY ------------------------------------------------------
+//EDIT ACCOUNT FUNCTIONALITY -----------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------
 function editAccountView(accountNumber) {
 	$("#extraSpace").hide();
 	$("#accountChoiceDiv").html("");

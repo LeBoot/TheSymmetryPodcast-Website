@@ -81,42 +81,47 @@ Date Modified:
 	
 <body>
 	<div id="bodyWrap">
-		<div>
-			<header>
-				<!-- Dynamically Added with headerFooter.js -->
-			</header>
-			<section>
-				<div id="pageContent">
-				<h1 id="logInTitle">Log In</h1>
-					<form id="logInForm">
-						<div>
-							<div id="userNameArea">
-								<input type="text" class="text full-width" placeholder="Username" id="userNameInput" required>
-							</div>
-							<div id="passwordArea">
-								<input type="password" class="text full-width" placeholder="Password" id="passwordInput" required>
-							</div>
-							<div id="logInButtonArea">
-								<button type="button" onClick="logInRequested()">Log In</button>
-							</div>
-							<div id="forgotPasswordArea">
-								<a href="">Forgot your password?</a>
-							</div>
-							<div id="noAccountArea">
-								Don't have an account? <a href="signUp.html">Sign Up</a>
-							</div>
+		<noscript>
+			<div class="noScriptBox">This Website Will Not Function Properly Unless JavaScript Is Enabled</div>
+		</noscript>
+		<header>
+			<!-- Dynamically Added with headerFooter.js -->
+		</header>
+		<section>
+			<div class="errorDiv">
+				<!-- Content Dynamically Added -->
+			</div>
+			<div id="pageContent">
+			<h1 id="logInTitle">Log In</h1>
+				<form id="logInForm">
+					<div>
+						<div id="userNameArea">
+							<input type="text" class="text full-width" placeholder="Username" id="userNameInput" required>
 						</div>
-					</form>
-				</div>
-			</section>
-			<footer>
-				<!-- Dynamically Added with headerFooter.js -->
-			</footer>
-		</div>
+						<div id="passwordArea">
+							<input type="password" class="text full-width" placeholder="Password" id="passwordInput" required>
+						</div>
+						<div id="logInButtonArea">
+							<button type="button" onClick="logInRequested()">Log In</button>
+						</div>
+						<div id="forgotPasswordArea">
+							<a href="">Forgot your password?</a>
+						</div>
+						<div id="noAccountArea">
+							Don't have an account? <a href="signUp.html">Sign Up</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+		<footer>
+			<!-- Dynamically Added with headerFooter.js -->
+		</footer>
 	</div>
 	
 	<!-- javaScript -->
 	<script src="js/headerFooter.js" ></script>
+	<script src="js/LogOff.js" ></script>
 	
 	<!-- Full JQuery -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

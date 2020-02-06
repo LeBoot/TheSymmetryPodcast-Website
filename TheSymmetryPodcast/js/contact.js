@@ -2,30 +2,31 @@
 Name: contact.js, (TSP Capstone)
 Author: Leboutillier
 Date Created: 27 JAN 2020
-Date Modified:
+Date Modified: 5 FEB 2020
 */
 
 /*
-This document contains the code to verify and submit information from a "contact us" form.
-1) When user click "edit" button, the display changes.
-2) Link myAccount.html to backend.
-*/
-
-/* TO DO LIST
-1) AJAX Call for Dropdown Box
-2) Tie to DB for submission
+1) This document contains the code to verify and submit information from a "contact us" form.
+2) When user click "edit" button, the display changes.
 */
 
 
-//VARIABLES ------------------------------------------------------------
-var userName;
-var userEmail;
-var userMessage;
-var userRegion;
+//ERROR DIV -------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
+function addToErrorDiv(Message) {
+		
+	$(".errorDiv").append(
+		'<p class="alert alert-danger">' + Message + '</p>'
+	);
+	
+}
 
 
-//DOCUMENT READY -------------------------------------------------------
+//DOCUMENT READY --------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
 $(document).ready(function () {
+	
+	$(".errorDiv").empty();
 	
 	$("#nameArea").empty();
 	$("#nameArea").html(`<input type="text" class="text full-width" placeholder="Name*" id="nameInput" required>`);
@@ -37,38 +38,48 @@ $(document).ready(function () {
 	$("#messageArea").html(`<textarea type="text" class="text full-width" placeholder="What's your message?*" id="messageInput" required></textarea>`);
 	
 	configureDropdown();
+	
 
 }) //End Document Ready
 
+
+//CONFIGURE DROPDOWN ----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
 function configureDropdown() {
 	
 	$("#regionInput").html(
-	
-	`<option value="Default" disabled selected hidden>Where are you listening from?*</option>`
-	
+		`<option value="Default" disabled selected hidden>Where are you listening from?*</option>`
 	);
 	
-	//call options from DB with AJAX call
-	//for each... <option value="Africa">Africa</option>
-	//$("#regionInput").append(selectionOption);
-	
-	//hard code for now...
-	$("#regionInput").append(
-	
-		`<option value="1">Africa</option>
-		<option value="2">Central Asia</option>
-		<option value="3">Eastern Asia</option>
-		<option value="4">Southern Asia</option>
-		<option value="5">Caribbean</option>
-		<option value="6">Europe</option>
-		<option value="7">Middle East</option>
-		<option value="8">North America</option>
-		<option value="9">South America</option>
-		<option value="10">Oceania</option>`
-	
-	);
+	configureDropdownAjaxCall();
 	
 }
+
+function configureDropdownAjaxCall() {
+
+	$.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/community/regions',
+        success: function(regionArray) {
+            //get a reference to the regions dropdown
+            var regionsDiv = $('#regionInput');
+
+            //go through each of the returned values and append
+            $.each(regionArray, function(index, region) {
+                var regionsInput = '<option value="' + region.regionid + '">' + region.regionName + '</option>'
+				regionsDiv.append(regionsInput);
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("Failure to load regions from database into dropdown box.");
+        }
+    });
+
+}
+
+
+//SUBMIT MESSAGE --------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
 
 function submitClicked() {
 	
@@ -76,33 +87,79 @@ function submitClicked() {
 	const inputEmail = document.getElementById("emailInput").value;
 	const inputMessage = document.getElementById("messageInput").value;
 	const inputRegion = document.getElementById("regionInput").value;
+	var isInputValid = true;
 	
-	if (
-		(inputName.length < 2) ||
-		(inputEmail.length < 3 ) || (!inputEmail.includes("@")) ||
-		(inputMessage.length < 2) ||
-		(inputRegion == "Default")
-		) {
-		alert ("You must fill out all fields!");
-	} else {
+	$(".errorDiv").empty();
+	
+	if ((inputName.length < 2) || (inputName.length > 49)) {
+		isInputValid = false;
+		addToErrorDiv("You must enter a name that between 2 and 50 characters.");
+	}
+	if ((inputEmail.length < 3 ) || (!inputEmail.includes("@")) || (inputEmail.length > 49)) {
+		isInputValid = false;
+		addToErrorDiv("You must enter a valid email that between 3 and 50 characters.");
+	}
+	if ((inputMessage.length < 2) || (inputMessage.length > 5000)) {
+		isInputValid = false;
+		addToErrorDiv("You message must be between 2 and 5000 characters.");
+	}
+	if (inputRegion == "Default") {
+		isInputValid = false;
+		addToErrorDiv("You must select a region.");
+	}
+
+	if (isInputValid == true) {
 		$("#nameInput").val("");
 		$("#emailInput").val("");
 		$("#messageInput").val("");
 		
-		userName = inputName;
-		userEmail = inputEmail;
-		userMessage = inputMessage;
-		userRegion = inputRegion;
-		
-		//push to database via AJAX
-		
-		$("#contactForm").hide();
-		$("#thankYouDiv").html(
-		
-			`<div id="thankYouPt1">Message Sent!</div>
-			<div id="thankYouPt2">Thank You For Contacting Us.</div>`
-		
-		);
-	}	
+		submitMessageAJAXCall(inputName, inputEmail, inputMessage, inputRegion);
+	}
+	else {
+		return false;
+	}
+	
 }
+
+function submitMessageAJAXCall(inputName, inputEmail, inputMessage, inputRegion) {
+	
+	$.ajax({
+		type: 'POST',
+		url: 'http://localhost:8080/contact/new-message',
+		data: JSON.stringify({
+			rbName: inputName,
+			rbEmail: inputEmail,
+			rbMessageText: inputMessage,
+			rbRegionId: inputRegion
+		}),
+		headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+		success: function() {
+			displayThankYouMessage();
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+            alert('Unfortunately that message did not go through.');
+        }
+	});
+
+}
+
+function displayThankYouMessage() {
+
+	$("#contactForm").hide();
+	$("#thankYouDiv").html(	
+		`<div id="thankYouPt1">Message Sent!</div>
+		<div id="thankYouPt2">Thank You For Contacting Us.</div>`
+	);
+
+}
+
+
+
+
+
+
+
 

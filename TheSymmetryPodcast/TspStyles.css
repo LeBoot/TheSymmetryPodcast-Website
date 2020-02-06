@@ -65,6 +65,26 @@ footer {
 	margin: auto;
 	max-height: 210px;
 	max-width: 210px;
-	/* img-fluid; */
+}
+
+.errorDiv {
+	max-width: 800px;
+	padding: 20px;
+	margin: auto;
+}
+
+.noScriptBox {		
+	text-align: center;
+	font-size: 32px;
+	color: red;
+	border: 2px solid red;
+	border-radius: 4px;
+	background-color: #ffe6e6;
+	margin: 10px 0px;
+	padding-top: 5px;
+}
+
+.sessionStatusDiv {
+	display: none;
 }
 

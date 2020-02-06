@@ -288,59 +288,64 @@ Date Modified:
 	
 <body>
 	<div id="bodyWrap">
-		<div>
-			<header>
-				<!-- Dynamically Added with headerFooter.js -->
-			</header>
-			<section>
-				<h1 id="mainTitle">Administrator Portal</h1>
-				<div class="flex-container" id="adminOptionsFlexContainer">
-					<button type="button" class="adminOptionsBtn" id="accountsBtn" onClick="toggleAccountsDiv()">Accounts</button>
-					<button type="button" class="adminOptionsBtn" id="messagesBtn" onClick="toggleMessagesDiv()">Messages</button>
-					<button type="button" class="adminOptionsBtn" id="mp3sBtn" onClick="toggleMp3sDiv()">MP3s</button>
-					<button type="button" class="adminOptionsBtn" id="logOutBtn">Log Out</button>
+		<noscript>
+			<div class="noScriptBox">This Website Will Not Function Properly Unless JavaScript Is Enabled</div>
+		</noscript>
+		<header>
+			<!-- Dynamically Added with headerFooter.js -->
+		</header>
+		<section>
+			<div class="errorDiv">
+				<!-- Content Dynamically Added -->
+			</div>
+			<h1 id="mainTitle">Administrator Portal</h1>
+			<div class="flex-container" id="adminOptionsFlexContainer">
+				<button type="button" class="adminOptionsBtn" id="accountsBtn" onClick="toggleAccountsDiv()">Accounts</button>
+				<button type="button" class="adminOptionsBtn" id="messagesBtn" onClick="toggleMessagesDiv()">Messages</button>
+				<button type="button" class="adminOptionsBtn" id="mp3sBtn" onClick="toggleMp3sDiv()">MP3s</button>
+				<button type="button" class="adminOptionsBtn" id="logOutBtn" onClick="logOutFromWebsite()">Log Out</button>
+			</div>
+			<div id="accountsDiv">
+				<div class="flex-container" id="accountOptionsFlexContainer">
+					<button type="button" class="accountOptionsBtn" id="viewAccountsBtn" onClick="viewAccounts()">View Accounts</button>
+					<button type="button" class="accountOptionsBtn" id="createAccountBtn" onclick="createAccountView()">Create an Account</button>
+					<button type="button" class="accountOptionsBtn" id="auditAccountBtn" onClick="askEditAccountNumber()">Edit an Account</button>
 				</div>
-				<div id="accountsDiv">
-					<div class="flex-container" id="accountOptionsFlexContainer">
-						<button type="button" class="accountOptionsBtn" id="viewAccountsBtn" onClick="viewAccounts()">View Accounts</button>
-						<button type="button" class="accountOptionsBtn" id="createAccountBtn" onclick="createAccountView()">Create an Account</button>
-						<button type="button" class="accountOptionsBtn" id="auditAccountBtn" onClick="askEditAccountNumber()">Edit an Account</button>
-					</div>
-					<div id="accountChoiceDiv">
-						<!-- Dynamically added with js/TSPadmin.js -->
-					</div>
+				<div id="accountChoiceDiv">
+					<!-- Dynamically added with js/TSPadmin.js -->
 				</div>
-				<div id="messagesDiv">
-					<div class="flex-container" id="messageOptionsFlexContainer">
-						<button type="button" class="messageOptionsBtn" id="viewAllBtn" onClick="viewAllMessages()">View All</button>
-						<button type="button" class="messageOptionsBtn" id="viewUnaddressedBtn" onClick="viewUnaddressedMessages()">View Unaddressed</button>
-						<button type="button" class="messageOptionsBtn" id="viewAddressedBtn" onClick="viewAddressedMessages()">View Addressed</button>
-						<button type="button" class="messageOptionsBtn" id="viewTabledBtn" onClick="viewTabledMessages()">View Tabled</button>
-					</div>
-					<div id="messageChoiceDiv">
-						<!-- Dynamically added with js/TSPadmin.js -->
-					</div>
+			</div>
+			<div id="messagesDiv">
+				<div class="flex-container" id="messageOptionsFlexContainer">
+					<button type="button" class="messageOptionsBtn" id="viewAllBtn" onClick="viewAllMessages()">View All</button>
+					<button type="button" class="messageOptionsBtn" id="viewUnaddressedBtn" onClick="viewUnaddressedMessages()">View Unaddressed</button>
+					<button type="button" class="messageOptionsBtn" id="viewAddressedBtn" onClick="viewAddressedMessages()">View Addressed</button>
+					<button type="button" class="messageOptionsBtn" id="viewTabledBtn" onClick="viewTabledMessages()">View Tabled</button>
 				</div>
-				<div id="mp3sDiv">
-					<div class="flex-container" id="mp3OptionsFlexContainer">
-						<button type="button" class="mp3OptionsBtn" id="viewMP3Btn">View MP3s</button>
-						<button type="button" class="mp3OptionsBtn" id="addMP3Btn">Add an MP3</button>
-					</div>
-					<div id="mp3ChoiceDiv">
-						<!-- Dynamically added with js/TSPadmin.js -->
-					</div>
+				<div id="messageChoiceDiv">
+					<!-- Dynamically added with js/TSPadmin.js -->
 				</div>
-				<div id="extraSpace"></div>
-			</section>			
-			<footer>
-				<!-- Dynamically Added with headerFooter.js -->
-			</footer>
-		</div>
+			</div>
+			<div id="mp3sDiv">
+				<div class="flex-container" id="mp3OptionsFlexContainer">
+					<button type="button" class="mp3OptionsBtn" id="viewMP3Btn">View MP3s</button>
+					<button type="button" class="mp3OptionsBtn" id="addMP3Btn">Add an MP3</button>
+				</div>
+				<div id="mp3ChoiceDiv">
+					<!-- Dynamically added with js/TSPadmin.js -->
+				</div>
+			</div>
+			<div id="extraSpace"></div>
+		</section>			
+		<footer>
+			<!-- Dynamically Added with headerFooter.js -->
+		</footer>
 	</div>
 	
 	<!-- javaScript -->
 	<script src="js/headerFooter.js" ></script>
 	<script src="js/TSPadmin.js" ></script>
+	<script src="js/LogOff.js" ></script>
 	
 	<!-- Full JQuery -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

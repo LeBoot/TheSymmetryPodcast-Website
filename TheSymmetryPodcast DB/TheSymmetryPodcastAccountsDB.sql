@@ -32,7 +32,7 @@ CREATE TABLE AccountTbl(
     MyPassword VARCHAR(20) NOT NULL,
     StartDate DATE NOT NULL,
     RegionID INT NOT NULL,
-    AccountTypeID INT NOT NULL,
+    AccountTypeID INT NOT NULL DEFAULT 1,
     FOREIGN KEY fk_RegionTbl_RegionID (RegionID)
 		REFERENCES RegionTbl (RegionID),
 	FOREIGN KEY fk_AccountTypeTbl_AccountTypeID (AccountTypeID)
@@ -47,7 +47,7 @@ CREATE TABLE ContactMessagesTbl(
     Notes TEXT NULL,
     MyTimeStamp DATETIME NOT NULL,
     RegionID INT NOT NULL,
-    ContactStatusID INT NOT NULL,
+    ContactStatusID INT DEFAULT '1',
     FOREIGN KEY fk_RegionTbl_RegionID (RegionID)
 		REFERENCES RegionTbl (RegionID),
 	FOREIGN KEY fk_ContactStatusTbl_ContactStatusID (ContactStatusID)

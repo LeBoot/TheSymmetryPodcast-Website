@@ -139,122 +139,127 @@ Date Modified:
 	
 <body>
 	<div id="bodyWrap">
-		<div>
-			<header>
-				<!-- Dynamically Added with headerFooter.js -->
-			</header>
-			<section>
-				<div id="pageContent">
-					<div id="normalDisplay">
-						<h1 id="myAccountTitle">My Account</h1>
-					
-						<div class="infoAndEditField" >
-							<div class="displayInfoField  flex-container" style="border-top: solid grey 2px;">
-								<div class="infoTitleDiv">
-									First Name:
-								</div>
-								<div class="infoDisplayDiv" id="firstNameDisplay">
-									Ben
-								</div>
-								<div class="editButtonDiv" id="firstNameEditButtonDiv">
-									<button id="firstNameEditButton" onClick="changeFirstNameFieldsFromEditToSave()">Edit</button>
-								</div>
+		<noscript>
+			<div class="noScriptBox">This Website Will Not Function Properly Unless JavaScript Is Enabled</div>
+		</noscript>
+		<header>
+			<!-- Dynamically Added with headerFooter.js -->
+		</header>
+		<section>
+			<div class="errorDiv">
+				<!-- Content Dynamically Added -->
+			</div>
+			<div id="pageContent">
+				<div id="normalDisplay">
+					<h1 id="myAccountTitle">My Account</h1>
+				
+					<div class="infoAndEditField" >
+						<div class="displayInfoField  flex-container" style="border-top: solid grey 2px;">
+							<div class="infoTitleDiv">
+								First Name:
 							</div>
-						</div>
-						
-						<div class="infoAndEditField">
-							<div class="displayInfoField  flex-container">
-								<div class="infoTitleDiv">
-									Last Name:
-								</div>
-								<div class="infoDisplayDiv" id="lastNameDisplay">
-									LeBoot
-								</div>
-								<div class="editButtonDiv" id="lastNameEditButtonDiv">
-									<button id="lastNameEditButton" onClick="changeLastNameFieldsFromEditToSave()">Edit</button>
-								</div>
+							<div class="infoDisplayDiv" id="firstNameDisplay">
+								Ben
 							</div>
-						</div>
-						
-						<div class="infoAndEditField">
-							<div class="displayInfoField  flex-container">
-								<div class="infoTitleDiv">
-									Email:
-								</div>
-								<div class="infoDisplayDiv" id="emailDisplay">
-									benLeBoot@website.com
-								</div>
-								<div class="editButtonDiv" id="emailEditButtonDiv">
-									<button id="emailEditButton" onClick="changeEmailFieldsFromEditToSave()">Edit</button>
-								</div>
+							<div class="editButtonDiv" id="firstNameEditButtonDiv">
+								<button id="firstNameEditButton" onClick="changeFirstNameFieldsFromEditToSave()">Edit</button>
 							</div>
-						</div>
-						
-						<div class="infoAndEditField">
-							<div class="displayInfoField  flex-container">
-								<div class="infoTitleDiv">
-									Username:
-								</div>
-								<div class="infoDisplayDiv" id="usernameDisplay">
-									benLeBoot
-								</div>
-								<div class="editButtonDiv" id="usernameButtonDiv">
-									<button id="usernameEditButton" onClick="changeUsernameFieldsFromEditToSave()">Edit</button>
-								</div>
-							</div>
-						</div>
-						
-						<div class="infoAndEditField">
-							<div class="displayInfoField  flex-container">
-								<div class="infoTitleDiv">
-									Password:
-								</div>
-								<div class="infoDisplayDivPassword" id="passwordDisplay">
-									Password
-								</div>
-								<div class="showPasswordButtonDiv">
-									<button id="passwordDisplayButton" onClick="toggleDisplayPassword()">Show</button>
-								</div>
-								<div class="editButtonDiv" id="passwordButtonDiv">
-									<button id="passwordEditButton" onClick="changePasswordFieldsFromEditToSave()">Edit</button>
-								</div>
-							</div>
-						</div>
-						
-						<div class="infoAndEditField">
-							<div class="displayInfoField  flex-container">
-								<div class="infoTitleDiv">
-									Region:
-								</div>
-								<div class="infoDisplayDiv" id="regionDisplay">
-									North America
-								</div>
-								<div class="editButtonDiv" id="regionButtonDiv">
-									<button id="regionEditButton" onClick="changeRegionFieldsFromEditToSave()">Edit</button>
-								</div>
-							</div>
-						</div>
-						
-						<div id="logOutDeleteArea">
-							<button class="extraButton">Log Out</button>
-							<button class="extraButton" id="deleteButton" onClick="sendAlert()">Delete Account</button>
 						</div>
 					</div>
-					<div id="deletedAccountDiv" class="hiddenElement">
-						<h2 id="deletedAccountHeading1">Your Account Has Been Deleted.</h2>
-						<h3 id="deletedAccountHeading2">We're Sorry To See You Go!</h3>
+					
+					<div class="infoAndEditField">
+						<div class="displayInfoField  flex-container">
+							<div class="infoTitleDiv">
+								Last Name:
+							</div>
+							<div class="infoDisplayDiv" id="lastNameDisplay">
+								LeBoot
+							</div>
+							<div class="editButtonDiv" id="lastNameEditButtonDiv">
+								<button id="lastNameEditButton" onClick="changeLastNameFieldsFromEditToSave()">Edit</button>
+							</div>
+						</div>
+					</div>
+					
+					<div class="infoAndEditField">
+						<div class="displayInfoField  flex-container">
+							<div class="infoTitleDiv">
+								Email:
+							</div>
+							<div class="infoDisplayDiv" id="emailDisplay">
+								benLeBoot@website.com
+							</div>
+							<div class="editButtonDiv" id="emailEditButtonDiv">
+								<button id="emailEditButton" onClick="changeEmailFieldsFromEditToSave()">Edit</button>
+							</div>
+						</div>
+					</div>
+					
+					<div class="infoAndEditField">
+						<div class="displayInfoField  flex-container">
+							<div class="infoTitleDiv">
+								Username:
+							</div>
+							<div class="infoDisplayDiv" id="usernameDisplay">
+								benLeBoot
+							</div>
+							<div class="editButtonDiv" id="usernameButtonDiv">
+								<button id="usernameEditButton" onClick="changeUsernameFieldsFromEditToSave()">Edit</button>
+							</div>
+						</div>
+					</div>
+					
+					<div class="infoAndEditField">
+						<div class="displayInfoField  flex-container">
+							<div class="infoTitleDiv">
+								Password:
+							</div>
+							<div class="infoDisplayDivPassword" id="passwordDisplay">
+								Password
+							</div>
+							<div class="showPasswordButtonDiv">
+								<button id="passwordDisplayButton" onClick="toggleDisplayPassword()">Show</button>
+							</div>
+							<div class="editButtonDiv" id="passwordButtonDiv">
+								<button id="passwordEditButton" onClick="changePasswordFieldsFromEditToSave()">Edit</button>
+							</div>
+						</div>
+					</div>
+						
+					<div class="infoAndEditField">
+						<div class="displayInfoField  flex-container">
+							<div class="infoTitleDiv">
+								Region:
+							</div>
+							<div class="infoDisplayDiv" id="regionDisplay">
+								North America
+							</div>
+							<div class="editButtonDiv" id="regionButtonDiv">
+								<button id="regionEditButton" onClick="changeRegionFieldsFromEditToSave()">Edit</button>
+							</div>
+						</div>
+					</div>
+						
+					<div id="logOutDeleteArea">
+						<button class="extraButton" onClick="logOutFromWebsite()">Log Out</button>
+						<button class="extraButton" id="deleteButton" onClick="sendAlert()">Delete Account</button>
 					</div>
 				</div>
-			</section>		
-			<footer>
-				<!-- Dynamically Added with headerFooter.js -->
-			</footer>
-		</div>
+				<div id="deletedAccountDiv" class="hiddenElement">
+					<h2 id="deletedAccountHeading1">Your Account Has Been Deleted.</h2>
+					<h3 id="deletedAccountHeading2">We're Sorry To See You Go!</h3>
+				</div>
+			</div>
+		</section>		
+		<footer>
+			<!-- Dynamically Added with headerFooter.js -->
+		</footer>
 	</div>
 	
 	<!-- javaScript -->
 	<script src="js/headerFooter.js" ></script>
 	<script src="js/myAccount.js" ></script>
+	<script src="js/LogOff.js" ></script>
 	
 	<!-- Full JQuery -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

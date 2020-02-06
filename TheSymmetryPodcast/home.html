@@ -27,7 +27,7 @@ Date Modified:
 	<style>
 	
 	#missionStatement {
-		padding-top: 20px;
+		padding-bottom: 10px;
 		font-size: 30px;
 		font-weight: bold;
 		text-align: center;
@@ -117,79 +117,68 @@ Date Modified:
 		color: black;
 	}
 	
-	#errorBox {
-		display: none;
-		
-		text-align: center;
-		font-size: 32px;
-		color: red;
-		border: 2px solid red;
-		border-radius: 4px;
-		background-color: #ffe6e6;
-		margin: 10px 0px;
-		padding-top: 5px;
-	}
-	
 	</style>
 </head>
 	
 <body>
 	<div id="bodyWrap">
-		<div id="errorBox">
-			<noscript>This Website Will Not Function Properly Unless JavaScript Is Enabled</noscript>
-		</div>
-		<div>
-			<header>
-				<!-- Dynamically Added with headerFooter.js -->
-			</header>
-			<section>
-				<p id="missionStatement">A home for conversations about faith and humanity that are designed to help people grow.</p>
-				<div id="flexBox" class="flex-container">
-					<a class="flex-container flexAnchor" href="listen.html">
-						<div class="imageDiv">
-							<img src="Images/ThumbHeadphones.JPG" alt="Picture of headphones" class="thumbnailPic"/>
-						</div>
-						<div class="textDiv">
-							<p class="textByThumbnail">Listen To Episodes</p>
-						</div>
-					</a>
-					
-					<a class="flex-container flexAnchor" href="blog.html">
-						<div class="imageDiv">
-							<img src="Images/ThumbQuill.JPG" alt="Picture of parchment and quill" class="thumbnailPic"/>
-						</div>
-						<div class="textDiv">
-							<p class="textByThumbnail">Read Our Blog</p>
-						</div>
-					</a>
-					
-					<a class="flex-container flexAnchor" href="about.html">
-						<div class="imageDiv">
-							<img src="Images/ThumbMicrophone.JPG" alt="Picture of microphone" class="thumbnailPic"/>
-						</div>
-						<div class="textDiv">
-							<p class="textByThumbnail">Learn About Us</p>
-						</div>
-					</a>
-					
-					<a class="flex-container flexAnchor" href="contact.html">
-						<div class="imageDiv">
-							<img src="Images/ThumbPaperPlane.JPG" alt="Picture of paper plane flying" class="thumbnailPic"/>
-						</div>
-						<div class="textDiv">
-							<p class="textByThumbnail">Send A Message</p>
-						</div>
-					</a>
-				</div>
-			</section>			
-			<footer>
-				<!-- Dynamically Added with headerFooter.js -->
-			</footer>
-		</div>
+		<noscript>
+			<div class="noScriptBox">This Website Will Not Function Properly Unless JavaScript Is Enabled</div>
+		</noscript>
+		<header>
+			<!-- Dynamically Added with headerFooter.js -->
+		</header>
+		<section>
+			<div class="errorDiv">
+				<!-- Content Dynamically Added -->
+			</div>
+			<p id="missionStatement">A home for conversations about faith and humanity that are designed to help people grow.</p>
+			<div id="flexBox" class="flex-container">
+				<a class="flex-container flexAnchor" href="listen.html">
+					<div class="imageDiv">
+						<img src="Images/ThumbHeadphones.JPG" alt="Picture of headphones" class="thumbnailPic"/>
+					</div>
+					<div class="textDiv">
+						<p class="textByThumbnail">Listen To Episodes</p>
+					</div>
+				</a>
+				
+				<a class="flex-container flexAnchor" href="blog.php">
+					<div class="imageDiv">
+						<img src="Images/ThumbQuill.JPG" alt="Picture of parchment and quill" class="thumbnailPic"/>
+					</div>
+					<div class="textDiv">
+						<p class="textByThumbnail">Read Our Blog</p>
+					</div>
+				</a>
+				
+				<a class="flex-container flexAnchor" href="about.html">
+					<div class="imageDiv">
+						<img src="Images/ThumbMicrophone.JPG" alt="Picture of microphone" class="thumbnailPic"/>
+					</div>
+					<div class="textDiv">
+						<p class="textByThumbnail">Learn About Us</p>
+					</div>
+				</a>
+				
+				<a class="flex-container flexAnchor" href="contact.html">
+					<div class="imageDiv">
+						<img src="Images/ThumbPaperPlane.JPG" alt="Picture of paper plane flying" class="thumbnailPic"/>
+					</div>
+					<div class="textDiv">
+						<p class="textByThumbnail">Send A Message</p>
+					</div>
+				</a>
+			</div>
+		</section>			
+		<footer>
+			<!-- Dynamically Added with headerFooter.js -->
+		</footer>
 	</div>
 	
 	<!-- javaScript -->
 	<script src="js/headerFooter.js" ></script>
+	<script src="js/LogOff.js" ></script>
 	
 	<!-- Full JQuery -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

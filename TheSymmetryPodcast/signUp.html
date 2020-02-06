@@ -75,63 +75,68 @@ Date Modified:
 	
 <body>
 	<div id="bodyWrap">
-		<div>
-			<header>
-				<!-- Dynamically Added with headerFooter.js -->
-			</header>
-			<section>
-				<div id="pageContent">
-				<h1 id="signUpTitle">Sign Up</h1>
-					<form id="signUpForm">
-						<div>
-							<div id="firstNameArea">
-								<input type="text" class="text full-width" placeholder="First Name*" name="firstNameInput" required>
-							</div>
-							<div id="lastNameArea">
-								<input type="text" class="text full-width" placeholder="Last Name*" name="lastNameInput" required>
-							</div>
-							<div id="emailArea">
-								<input type="email" class="text full-width" placeholder="Email*" name="emailInput" required>
-							</div>
-							<div id="userNameArea">
-								<input type="text" class="text full-width" placeholder="Username*" name="userNameInput" required>
-							</div>
-							<div id="passwordArea">
-								<input type="password" class="text full-width" placeholder="Password*" name="passwordInput" required>
-							</div>
-							<div id="regionArea">
-								<select id="regionSelect" name="regionInput">
-									<option value="Default" disabled selected hidden>Where are you listening from?</option>
-									<option value="Africa">Africa</option>
-									<option value="CentralAsia">Central Asia</option>
-									<option value="EasternAsia">Eastern Asia</option>
-									<option value="SouthernAsia">Southern Asia</option>
-									<option value="Caribbean">Caribbean</option>
-									<option value="Europe">Europe</option>
-									<option value="MiddleEast">Middle East</option>
-									<option value="NorthAmerica">North America</option>
-									<option value="SouthAmerica">South America</option>
-									<option value="Oceania">Oceania</option>
-								</select>
-							</div>
-							<div id="createAccountButtonArea">
-								<button type="button">Create Account</button>
-							</div>
-							<div id="alreadyHasAccountArea">
-								Already have an account? <a href="logIn.html">Log In</a>
-							</div>
+		<noscript>
+			<div class="noScriptBox">This Website Will Not Function Properly Unless JavaScript Is Enabled</div>
+		</noscript>
+		<header>
+			<!-- Dynamically Added with headerFooter.js -->
+		</header>
+		<section>
+			<div class="errorDiv">
+				<!-- Content Dynamically Added -->
+			</div>
+			<div id="pageContent">
+			<h1 id="signUpTitle">Sign Up</h1>
+				<form id="signUpForm">
+					<div>
+						<div id="firstNameArea">
+							<input type="text" class="text full-width" placeholder="First Name*" name="firstNameInput" required>
 						</div>
-					</form>
-				</div>
-			</section>
-			<footer>
-				<!-- Dynamically Added with headerFooter.js -->
-			</footer>
-		</div>
+						<div id="lastNameArea">
+							<input type="text" class="text full-width" placeholder="Last Name*" name="lastNameInput" required>
+						</div>
+						<div id="emailArea">
+							<input type="email" class="text full-width" placeholder="Email*" name="emailInput" required>
+						</div>
+						<div id="userNameArea">
+							<input type="text" class="text full-width" placeholder="Username*" name="userNameInput" required>
+						</div>
+						<div id="passwordArea">
+							<input type="password" class="text full-width" placeholder="Password*" name="passwordInput" required>
+						</div>
+						<div id="regionArea">
+							<select id="regionSelect" name="regionInput">
+								<option value="Default" disabled selected hidden>Where are you listening from?</option>
+								<option value="Africa">Africa</option>
+								<option value="CentralAsia">Central Asia</option>
+								<option value="EasternAsia">Eastern Asia</option>
+								<option value="SouthernAsia">Southern Asia</option>
+								<option value="Caribbean">Caribbean</option>
+								<option value="Europe">Europe</option>
+								<option value="MiddleEast">Middle East</option>
+								<option value="NorthAmerica">North America</option>
+								<option value="SouthAmerica">South America</option>
+								<option value="Oceania">Oceania</option>
+							</select>
+						</div>
+						<div id="createAccountButtonArea">
+							<button type="button">Create Account</button>
+						</div>
+						<div id="alreadyHasAccountArea">
+							Already have an account? <a href="logIn.html">Log In</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+		<footer>
+			<!-- Dynamically Added with headerFooter.js -->
+		</footer>
 	</div>
 	
 	<!-- javaScript -->
 	<script src="js/headerFooter.js" ></script>
+	<script src="js/LogOff.js" ></script>
 	
 	<!-- Full JQuery -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
