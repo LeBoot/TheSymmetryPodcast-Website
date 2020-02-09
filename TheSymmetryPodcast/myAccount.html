@@ -130,6 +130,12 @@ Date Modified:
 			padding-bottom: 20px;
 		}
 		
+		#pageLoadingDiv {
+			text-align: center;
+			font-size: 16px;
+			padding: 20px 0px 120px 0px;
+		}
+		
 		.hiddenElement {
 			display: none;
 		}
@@ -151,8 +157,13 @@ Date Modified:
 				<!-- Content Dynamically Added -->
 			</div>
 			<div id="pageContent">
-				<div id="normalDisplay">
-					<h1 id="myAccountTitle">My Account</h1>
+				<h1 id="myAccountTitle">My Account</h1>
+				
+				<div id="pageLoadingDiv">
+					Loading your account...
+				</div>
+				
+				<div id="normalDisplay" class="hiddenElement">
 				
 					<div class="infoAndEditField" >
 						<div class="displayInfoField  flex-container" style="border-top: solid grey 2px;">
@@ -160,7 +171,7 @@ Date Modified:
 								First Name:
 							</div>
 							<div class="infoDisplayDiv" id="firstNameDisplay">
-								Ben
+								<!-- Name, Dynamically Added -->
 							</div>
 							<div class="editButtonDiv" id="firstNameEditButtonDiv">
 								<button id="firstNameEditButton" onClick="changeFirstNameFieldsFromEditToSave()">Edit</button>
@@ -174,7 +185,7 @@ Date Modified:
 								Last Name:
 							</div>
 							<div class="infoDisplayDiv" id="lastNameDisplay">
-								LeBoot
+								<!-- Name, Dynamically Added -->
 							</div>
 							<div class="editButtonDiv" id="lastNameEditButtonDiv">
 								<button id="lastNameEditButton" onClick="changeLastNameFieldsFromEditToSave()">Edit</button>
@@ -188,7 +199,7 @@ Date Modified:
 								Email:
 							</div>
 							<div class="infoDisplayDiv" id="emailDisplay">
-								benLeBoot@website.com
+								<!-- Email, Dynamically Added -->
 							</div>
 							<div class="editButtonDiv" id="emailEditButtonDiv">
 								<button id="emailEditButton" onClick="changeEmailFieldsFromEditToSave()">Edit</button>
@@ -202,7 +213,7 @@ Date Modified:
 								Username:
 							</div>
 							<div class="infoDisplayDiv" id="usernameDisplay">
-								benLeBoot
+								<!-- Username, Dynamically Added -->
 							</div>
 							<div class="editButtonDiv" id="usernameButtonDiv">
 								<button id="usernameEditButton" onClick="changeUsernameFieldsFromEditToSave()">Edit</button>
@@ -216,7 +227,7 @@ Date Modified:
 								Password:
 							</div>
 							<div class="infoDisplayDivPassword" id="passwordDisplay">
-								Password
+								<!-- Password, Dynamically Added -->
 							</div>
 							<div class="showPasswordButtonDiv">
 								<button id="passwordDisplayButton" onClick="toggleDisplayPassword()">Show</button>
@@ -233,7 +244,7 @@ Date Modified:
 								Region:
 							</div>
 							<div class="infoDisplayDiv" id="regionDisplay">
-								North America
+								<!-- Region, Dynamically Added -->
 							</div>
 							<div class="editButtonDiv" id="regionButtonDiv">
 								<button id="regionEditButton" onClick="changeRegionFieldsFromEditToSave()">Edit</button>

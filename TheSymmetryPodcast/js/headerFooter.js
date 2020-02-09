@@ -66,7 +66,6 @@ function AJAXcallForSessionStatus() {
 function addToAccountIdDiv(userAccountNum) {
 	console.log("Account Number: " + userAccountNum);
 	$(".accountIdDiv").text(userAccountNum);
-	
 }
 
 function addHeader(sessionStatus) {

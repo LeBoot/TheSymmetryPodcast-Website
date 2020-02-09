@@ -2,7 +2,7 @@
 Name: TSPadmin.js, (TSP Capstone)
 Author: Leboutillier
 Date Created: 26 JAN 2020
-Date Modified: 4 FEB 2020
+Date Modified: 9 FEB 2020
 */
 
 /*
@@ -17,8 +17,14 @@ Date Modified: 4 FEB 2020
 
 */
 
+
+//VARIABLES ---------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------
+var AdministratorPassword;
+
+
 //ERROR DIV ---------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------
 function addToErrorDiv(Message) {
 		
 	$(".errorDiv").append(
@@ -36,15 +42,42 @@ function emptyErrorDiv() {
 //--------------------------------------------------------------------------------------------------------------
 $(document).ready(function () {
 	
-	redirectIfNecessary();
 	emptyErrorDiv();
 	hideAllDivs();
+	redirectIfNecessary();
+	
 
 }) //End Document Ready
 
 function redirectIfNecessary() {
 
-	//AJAX call:  give account number from div, and ask if it is an administrator; if yes, good to go; if no, redirect to logIn page
+	setTimeout(function(){
+		accountNum = $(".accountIdDiv").text();
+		
+		$.ajax({
+			type: 'GET',
+			url: 'http://localhost:8080/account/get/' + accountNum,
+			success: function(Account) {
+				if (Account.accountType.accounttypeid == 2) {
+					AdministratorPassword = Account.password;
+				}
+				else {
+					redirect();
+				}
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				redirect();
+			}
+		});	
+		
+	}, 500);
+	
+}
+
+function redirect() {
+	
+	alert("Sorry, but you do not have administrator privileges.");
+	window.location.href = 'home.html';
 	
 }
 
@@ -84,7 +117,11 @@ function toggleMp3sDiv() {
 //TOGGLE ACCOUNT OPTIONS ---------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------
 
+
+// VIEW/DELETE ACCOUNTS --------------------------------------------------------------------------------------
 function viewAccounts() {	
+	
+	emptyErrorDiv();
 	
 	$("#extraSpace").hide();
 	
@@ -97,15 +134,13 @@ function viewAccounts() {
 				<th width="10%">First Name</th>
 				<th width="10%">Last Name</th>
 				<th width="20%">Email</th>
-				<th width="10%">Username</th>
-				<th width="10%">Password</th>
-				<th width="7%">Start Year</th>
-				<th width="10%">Region</th>
-				<th width="6%">Type</th>
+				<th width="13%">Username</th>
+				<th width="9%">Start Date</th>
+				<th width="11%">Region</th>
+				<th width="10%">Type</th>
 				<th width="6%"></th>
 				<th width="6%"></th>
 			</tr>
-
 		</table>`
 	
 	);
@@ -115,37 +150,88 @@ function viewAccounts() {
 }
 
 function appendAccountTable() {
-	//dummy variables that need to be auto-generated when back-end is connected
-	var accountNum1 = "1";
-	var firstName1 = "Benjamin";
-	var lastName1 = "Leboutillier";
-	var email1 = "benleboot@website.com";
-	var username1 = "benleboot";
-	var password1 = "password1";
-	var year1 = "2018";
-	var region1 = "North America";
-	var type1 = "1";
 	
-	$("#allAccountsTable").append(
-	
-		`<tr>
-			<td>` + accountNum1 + `</td>
-			<td>` + firstName1 + `</td>
-			<td>` + lastName1 + `</td>
-			<td>` + email1 + `</td>
-			<td>` + username1 + `</td>
-			<td>` + password1 + `</td>
-			<td>` + year1 + `</td>
-			<td>` + region1 + `</td>
-			<td>` + type1 + `</td>
-			<td><button type="button" class="listAllAccountsEditButton" onClick="editAccountView(` + accountNum1 + `)">Edit</button></td>
-			<td><button type="button" class="listAllAccountsDeleteButton" onClick="deleteAccount(` + accountNum1 + `)">Delete</button></td>
-		</tr>`
-	
-	);
+	$.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/account/get-all',
+        success: function(AccountArray) {
+            //get a reference to the table to append
+            var tableToAppend = $('#allAccountsTable');
+
+            //for each, build a table, then add values
+            $.each(AccountArray, function(index, account) {
+                var htmlToAdd = `<tr>`;
+				htmlToAdd += `<td id="table-row-accountNum-` + index + `"></td>`;
+				htmlToAdd += `<td id="table-row-firstName-` + index + `"></td>`;
+				htmlToAdd += `<td id="table-row-lastName-` + index + `"></td>`;
+				htmlToAdd += `<td id="table-row-email-` + index + `"></td>`;
+				htmlToAdd += `<td id="table-row-username-` + index + `"></td>`;
+				htmlToAdd += `<td id="table-row-startDate-` + index + `"></td>`;
+				htmlToAdd += `<td id="table-row-region-` + index + `"></td>`;
+				htmlToAdd += `<td id="table-row-type-` + index + `"></td>`;
+				htmlToAdd += `<td><button type="button" class="listAllAccountsEditButton" onClick="editAccountView(` + account.accountnumber + `)">Edit</button></td>`;
+				htmlToAdd += `<td><button type="button" class="listAllAccountsDeleteButton" onClick="deleteAccount(` + account.accountnumber + `, '` + account.firstName + `', '` + account.lastName + `')">Delete</button></td>`;
+				htmlToAdd += `</tr>`;
+				
+				tableToAppend.append(htmlToAdd);
+				
+				$("#table-row-accountNum-" + index).text(account.accountnumber);
+				$("#table-row-firstName-" + index).text(account.firstName);
+				$("#table-row-lastName-" + index).text(account.lastName);
+				$("#table-row-email-" + index).text(account.email);
+				$("#table-row-username-" + index).text(account.username);
+				$("#table-row-startDate-" + index).text(account.startDate);
+				$("#table-row-region-" + index).text(account.region.regionName);
+				$("#table-row-type-" + index).text(account.accountType.accountTypeName);
+				
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("Failure to load accounts from database into table.");
+        }
+    });	
+
 }
 
+function deleteAccount(accountNumber, Fname, Lname) {
+	
+	var output;
+	var input = prompt("Are you sure you want to permanantly delete the account for " + Fname + " " + Lname + "?  If so, enter your administrator password:", "");
+	
+	if (input == AdministratorPassword) {
+		deleteAccountAJAXCall(accountNumber);
+	}
+	else if ((input == null) || (input == "")) {
+		return false;
+	}
+	else {
+		alert("Incorrect Password");
+	}
+
+}
+
+function deleteAccountAJAXCall(accountNumber) {
+	
+	$.ajax({
+		type: 'GET',
+		url: 'http://localhost:8080/account/delete/' + accountNumber,
+		success: function() {
+			emptyErrorDiv();
+			alert("Account Deleted.");
+			viewAccounts();
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			addToErrorDiv("Failure to delete that account.");
+        }
+	});
+	
+}
+
+
+// CREATE ACCOUNTS ---------------------------------------------------------------------------
 function createAccountView() {
+	
+	emptyErrorDiv();
 	
 	$("#extraSpace").hide();
 	
@@ -155,36 +241,26 @@ function createAccountView() {
 		<form id="createAccountForm">
 			<div>
 				<div id="firstNameArea">
-					<input type="text" class="text full-width" placeholder="First Name*" id="firstNameInput" required>
+					<input type="text" class="text full-width" placeholder="First Name*" id="firstNameInputNewAcc" required>
 				</div>
 				<div id="lastNameArea">
-					<input type="text" class="text full-width" placeholder="Last Name*" id="lastNameInput" required>
+					<input type="text" class="text full-width" placeholder="Last Name*" id="lastNameInputNewAcc" required>
 				</div>
 				<div id="emailArea">
-					<input type="email" class="text full-width" placeholder="Email*" id="emailInput" required>
+					<input type="email" class="text full-width" placeholder="Email*" id="emailInputNewAcc" required>
 				</div>
 				<div id="userNameArea">
-					<input type="text" class="text full-width" placeholder="Username*" id="userNameInput" required>
+					<input type="text" class="text full-width" placeholder="Username*" id="userNameInputNewAcc" required>
 				</div>
 				<div id="passwordArea">
-					<input type="text" class="text full-width" placeholder="Password*" id="passwordInput" required>
+					<input type="password" class="text full-width" placeholder="Password*" id="passwordInputNewAcc" required>
 				</div>
 				<div id="accountTypeArea">
-					<input type="text" class="text full-width" placeholder="Account Type" id="accountTypeInput">
+					<select id="accountTypeSelectNewAcc" required>
+					</select>
 				</div>
 				<div id="regionArea">
-					<select id="regionSelect" id="regionInput">
-						<option value="Default" disabled selected hidden>Region?</option>
-						<option value="Africa">Africa</option>
-						<option value="CentralAsia">Central Asia</option>
-						<option value="EasternAsia">Eastern Asia</option>
-						<option value="SouthernAsia">Southern Asia</option>
-						<option value="Caribbean">Caribbean</option>
-						<option value="Europe">Europe</option>
-						<option value="MiddleEast">Middle East</option>
-						<option value="NorthAmerica">North America</option>
-						<option value="SouthAmerica">South America</option>
-						<option value="Oceania">Oceania</option>
+					<select id="regionSelectNewAcc" required>
 					</select>
 				</div>
 			</div>
@@ -194,7 +270,131 @@ function createAccountView() {
 		</form>`
 	
 	);
+	
+	//AJAX to dipslay account type
+	$.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/community/accountTypes',
+        success: function(accountTypeArray) {
+            //get a reference to the dropdown
+            var referenceSelect = $('#accountTypeSelectNewAcc');
+
+            //go through each of the returned values and append
+            $.each(accountTypeArray, function(index, type) {
+                var toBeAppended = '<option value="' + type.accounttypeid + '">' + type.accountTypeName + '</option>'
+				referenceSelect.append(toBeAppended);
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            addToErrorDiv("Failure to load account-types from database into dropdown box.");
+        }
+    });
+	
+	
+	//AJAX to display reigons
+	$.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/community/regions',
+        success: function(regionArray) {
+            //get a reference to the regions dropdown
+            var regionsDiv = $('#regionSelectNewAcc');
+
+            //go through each of the returned values and append
+            $.each(regionArray, function(index, region) {
+                var regionsInput = '<option value="' + region.regionid + '">' + region.regionName + '</option>'
+				regionsDiv.append(regionsInput);
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            addToErrorDiv("Failure to load regions from database into dropdown box.");
+        }
+    });
+	
 }
+
+function createAccountRequest() {
+	
+	emptyErrorDiv();
+	
+	var proceedWithAjaxCall = true;
+	
+	const inputFirst = $("#firstNameInputNewAcc").val();
+	const inputLast = $("#lastNameInputNewAcc").val();
+	const inputEmail = $("#emailInputNewAcc").val();
+	const inputUsername = $("#userNameInputNewAcc").val();
+	const inputPass = $("#passwordInputNewAcc").val();
+	const inputRegionId = document.getElementById("regionSelectNewAcc").value;
+	const inputAccountTypeId = document.getElementById("accountTypeSelectNewAcc").value;
+	// const inputRegionId = $("#regionSelect").val();
+
+	if ((inputFirst.length < 2) || (inputFirst.length > 24)) {
+		addToErrorDiv("First name must be between 2 and 25 characters");
+		proceedWithAjaxCall = false;
+	}
+	if ((inputLast.length < 2) || (inputLast.length > 24)) {
+		addToErrorDiv("Last name must be between 2 and 25 characters");
+		proceedWithAjaxCall = false;
+	}
+	if ((inputEmail.length < 2) || (inputEmail.length > 40) || (!inputEmail.includes(".")) || (!inputEmail.includes("@"))) {
+		addToErrorDiv("Email must be valid and contain between 2 and 40 characters");
+		proceedWithAjaxCall = false;
+	}
+	if ((inputUsername.length < 2) || (inputUsername.length > 15)) {
+		addToErrorDiv("Username must be between 2 and 15 characters");
+		proceedWithAjaxCall = false;
+	}
+	if ((inputPass.length < 2) || (inputPass.length > 20)) {
+		addToErrorDiv("Password must be between 2 and 20 characters");
+		proceedWithAjaxCall = false;
+	}
+	if ((inputAccountTypeId == "Default") || (inputAccountTypeId == null)) {
+		proceedWithAjaxCall = false;
+		addToErrorDiv("You must select an account type.");
+	}
+	if ((inputRegionId == "Default") || (inputRegionId == null)) {
+		proceedWithAjaxCall = false;
+		addToErrorDiv("You must select a region.");
+	}
+	
+	if (proceedWithAjaxCall == true) {
+		AJAXcallToCreateAccount(inputFirst, inputLast, inputEmail, inputUsername, inputPass, inputAccountTypeId, inputRegionId);
+	}
+	
+}
+
+function AJAXcallToCreateAccount(inputFirst, inputLast, inputEmail, inputUsername, inputPass, inputAccountTypeId, inputRegionId) {
+	
+	$.ajax({
+		type: 'POST',
+		url: 'http://localhost:8080/account/create',
+		data: JSON.stringify({
+			firstName : inputFirst,
+			lastName : inputLast,
+			email : inputEmail,
+			username : inputUsername,
+			password : inputPass,
+			regionId : inputRegionId,
+			accountTypeId : inputAccountTypeId
+		}),
+		headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+		success: function() {
+			emptyErrorDiv();
+			alert("New account successfully created");
+			viewAccounts();
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			addToErrorDiv("That account cannot be created.  Most likely, that username is already taken.  Feel free to try again!");
+        }
+	});
+	
+}
+
+
+//EDIT ACCOUNTS -----------------------------------------------------------------------------------
+//(the rest of the edit functionality is at the bottom of this page)
 
 function addEditAccountHeader() {
 	$("#accountChoiceDiv").html(`<h3 class="accountChoiceHeader">Edit An Account</h3>`);
@@ -225,8 +425,7 @@ function askEditAccountNumber() {
 }
 
 function getAccountToEditId() {
-	const accountToView = 2;
-	//const accountToView = $("#accountNumberToEdit").value();
+	const accountToView = $("#accountNumberToEdit").val();
 	editAccountView(accountToView);
 }
 
@@ -552,7 +751,36 @@ function AJAXCallEditMessageNote(messageID, newNote, originalLocation) {
 
 //EDIT ACCOUNT FUNCTIONALITY -----------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------
+
+//VARIABLES --------------------------------------------------------------------
+var JSaccountNumber;
+
+//filled from AJAX (GET): These never change except when the AJAX GET is called
+var JSfirstName;
+var JSlastName;
+var JSemail;
+var JSusername;
+var JSpassword
+var JSregionID;
+var	JSregionName;
+var JSaccountTypeId;
+var JSaccountTypeName;
+
+//filled from GET AJAX, then fields, then (if error) from AJAX (POST)
+//these change with user input, but are reset if the AJAX (POST) fails
+var JSfirstNameP;
+var JSlastNameP;
+var JSemailP;
+var JSusernameP;
+var JSregionIDP;
+var JSaccountTypeIdP;
+
+//DISPLAY ACCOUNT --------------------------------------------------------------
+
 function editAccountView(accountNumber) {
+	
+	JSaccountNumber = accountNumber;
+	
 	$("#extraSpace").hide();
 	$("#accountChoiceDiv").html("");
 	
@@ -620,20 +848,6 @@ function editAccountView(accountNumber) {
 			<div class="infoAndEditField">
 				<div class="displayInfoField  flex-container">
 					<div class="infoTitleDiv">
-						Password:
-					</div>
-					<div class="infoDisplayDiv" id="passwordDisplay">
-						Password
-					</div>
-					<div class="editButtonDiv" id="passwordButtonDiv">
-						<button type="button" class="AccountEditSaveBtn" id="passwordEditButton" onClick="changePasswordFieldsFromEditToSave()">Edit</button>
-					</div>
-				</div>
-			</div>
-			
-			<div class="infoAndEditField">
-				<div class="displayInfoField  flex-container">
-					<div class="infoTitleDiv">
 						Region:
 					</div>
 					<div class="infoDisplayDiv" id="regionDisplay">
@@ -666,301 +880,369 @@ function editAccountView(accountNumber) {
 		</div>`
 	
 	);
+	
+	emptyAllEditFields();
+	
+	AJAXcallForAccount();
+	
 }
 
+function AJAXcallForAccount() {
+	
+	$.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/account/get/' + JSaccountNumber,
+        success: function(account) {			
+			//these only ever are set from this success function
+			JSaccountNumber = account.accountnumber;
+			JSfirstName = account.firstName;
+			JSlastName = account.lastName;
+			JSemail = account.email;
+			JSusername = account.username;
+			JSpassword = account.password;
+			JSregionID = account.region.regionid;
+			JSregionName = account.region.regionName;
+			JSaccountTypeId = account.accountType.accounttypeid;
+			JSaccountTypeName = account.accountType.accountTypeName;
+			
+			//these can change with user input, but will be reset if POST fails
+			JSfirstNameP = JSfirstName;
+			JSlastNameP = JSlastName;
+			JSemailP = JSemail;
+			JSusernameP = JSusername;
+			JSregionIDP = JSregionID;
+			JSaccountTypeIdP = JSaccountTypeId;
+			
+			fillAllEditFields();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+			addToErrorDiv("Failure to load account from database.");
+        }
+    });
 
-var firstName = "John";
-var lastName = "Johnson";
-var email = "JJ@website.com";
-var username = "JohnnyJ";
-var password = "JJRULES";
-var region = "Europe";
-var type = "Memeber";
-
-function loadEditDiv() {
-	fillFields();
 }
 
-function fillFields() {
-	$("#firstNameDisplay").html(firstName);
-	$("#lastNameDisplay").html(lastName);
-	$("#emailDisplay").html(email);
-	$("#usernameDisplay").html(username);
-	$("#passwordDisplay").html(password);
-	$("#regionDisplay").html(region);
-	$("#typeDisplay").html(type);
+function fillAllEditFields() {
+	
+	$("#firstNameDisplay").text(JSfirstName);
+	$("#lastNameDisplay").text(JSlastName);
+	$("#emailDisplay").text(JSemail);
+	$("#usernameDisplay").text(JSusername);
+	$("#regionDisplay").text(JSregionName);
+	$("#typeDisplay").text(JSaccountTypeName);
+	
 }
+
+function emptyAllEditFields() {
+	
+	$("#firstNameDisplay").empty();
+	$("#lastNameDisplay").empty();
+	$("#emailDisplay").empty();
+	$("#usernameDisplay").empty();
+	$("#regionDisplay").empty();
+	$("#typeDisplay").empty();
+	
+}
+
+//EDIT/SAVE INFO ONCLICK FUNCTIONS -------------------------------------------------------
+
+function AJAXCallToEditAccount() {
+	
+	emptyErrorDiv();
+	
+	$.ajax({
+		type: 'POST',
+		url: 'http://localhost:8080/account/edit',
+		data: JSON.stringify({
+			accountId : JSaccountNumber,
+			firstName : JSfirstNameP,
+			lastName : JSlastNameP,
+			email : JSemailP,
+			username : JSusernameP,
+			password : JSpassword,
+			regionId : JSregionIDP,
+			accountTypeId : JSaccountTypeIdP
+		}),
+		headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+		success: function() {
+			editAccountView(JSaccountNumber);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			//reset variables
+			JSfirstNameP = JSfirstName;
+			JSlastNameP = JSlastName;
+			JSemailP = JSemail;
+			JSusernameP = JSusername;
+			JSregionIDP = JSregionID;
+			JSaccountTypeIdP = JSaccountTypeId;
+			
+			//display errors
+			addToErrorDiv("Whoops.  Those changes were not valid.");
+			addToErrorDiv("If you were attempting to change the username, you may have attempted one that is already taken.");
+        }
+	});
+}
+
 
 function changeFirstNameFieldsFromEditToSave() {
 	$("#firstNameDisplay").html(	
-		`<input type="text" class="inputBox" placeholder="First Name" id="firstNameInput">`	
+		`<input type="text" class="editAccountInfoInput" placeholder="First Name" id="firstNameInput" maxlength="25">`	
 	);
+	
+	$("#firstNameInput").val(JSfirstName);
 		
 	$("#firstNameEditButtonDiv").html(	
-		`<button type="button" class="AccountEditSaveBtn" id="firstNameSaveButton" onClick="changeFirstNameFieldsFromSaveToEdit()">Save</button>`	
+		`<button class="AccountEditSaveBtn" id="firstNameSaveButton" onClick="changeFirstNameFieldsFromSaveToEdit()">Save</button>`	
 	);
 }
 
 function changeFirstNameFieldsFromSaveToEdit() {		
-		//determine whether or not the user actually typed anything new
+		//gather from field
 		var possibleNewData = document.getElementById("firstNameInput").value;
 		
-		//if input is null, keep the old input and display it
-		if (possibleNewData == "") {
-			$("#firstNameDisplay").html(	
-				firstName
-			);
-		}
-		else {
-			//Will need to persist data
-		
-			firstName = possibleNewData;
-			$("#firstNameDisplay").html(	
-				firstName
-			);
-		
-		}
-		
-		//convert "save" button to "edit" button
+		//reset display
+		$("#firstNameDisplay").text(JSfirstName);
 		$("#firstNameEditButtonDiv").html(
-			`<button type="button" class="AccountEditSaveBtn" id="firstNameEditButton" onClick="changeFirstNameFieldsFromEditToSave()">Edit</button>`
+			`<button id="firstNameEditButton" onClick="changeFirstNameFieldsFromEditToSave()">Edit</button>`
 		);
+		
+		//if anything was entered, attempt AJAX call
+		if ((possibleNewData != "") && (possibleNewData != null)) {
+			if ((possibleNewData.length < 2) || (possibleNewData.length > 25)) {
+				addToErrorDiv("First name must be between 2 and 25 characters.");
+			}
+			else {
+				//prepare for and make AJAX call
+				JSfirstNameP = possibleNewData;
+				AJAXCallToEditAccount();
+			}
+		}
+		
 }
 
 function changeLastNameFieldsFromEditToSave() {
 	$("#lastNameDisplay").html(	
-		`<input type="text" class="inputBox" placeholder="Last Name" id="lastNameInput">`	
+		`<input type="text" class="editAccountInfoInput" placeholder="Last Name" id="lastNameInput" maxlength="25">`	
 	);
 		
+	$("#lastNameInput").val(JSlastName);	
+		
 	$("#lastNameEditButtonDiv").html(	
-		`<button type="button" class="AccountEditSaveBtn" id="lastNameSaveButton" onClick="changeLastNameFieldsFromSaveToEdit()">Save</button>`	
+		`<button class="AccountEditSaveBtn" id="lastNameSaveButton" onClick="changeLastNameFieldsFromSaveToEdit()">Save</button>`	
 	);
 }
 
 function changeLastNameFieldsFromSaveToEdit() {		
-		//determine whether or not the user actually typed anything new
+		//gather from field
 		var possibleNewData = document.getElementById("lastNameInput").value;
 		
-		//if input is null, keep the old input and display it
-		if (possibleNewData == "") {
-			$("#lastNameDisplay").html(	
-				lastName
-			);
-		}
-		else {
-			//Will need to persist data
-		
-			lastName = possibleNewData;
-			$("#lastNameDisplay").html(	
-				lastName
-			);
-		
-		}
-		
-		//convert "save" button to "edit" button
+		//reset display
+		$("#lastNameDisplay").text(JSlastName);
 		$("#lastNameEditButtonDiv").html(
-			`<button type="button" class="AccountEditSaveBtn" id="lastNameEditButton" onClick="changeLastNameFieldsFromEditToSave()">Edit</button>`
+			`<button id="lastNameEditButton" onClick="changeLastNameFieldsFromEditToSave()">Edit</button>`
 		);
+		
+		//if anything was entered, attempt AJAX call
+		if ((possibleNewData != "") && (possibleNewData != null)) {
+			if ((possibleNewData.length < 2) || (possibleNewData.length > 25)) {
+				addToErrorDiv("Last name must be between 2 and 25 characters.");
+			}
+			else {				
+				//prepare for and make AJAX call
+				JSlastNameP = possibleNewData;
+				AJAXCallToEditAccount();
+			}
+		}
+
 }
 
 function changeEmailFieldsFromEditToSave() {
 	$("#emailDisplay").html(	
-		`<input type="text" class="inputBox" placeholder="Email" id="emailInput">`	
+		`<input type="text" class="editAccountInfoInput" placeholder="Email" id="emailInput" maxlength="40">`	
 	);
 		
+	$("#emailInput").val(JSemail);
+	
 	$("#emailEditButtonDiv").html(	
-		`<button type="button" class="AccountEditSaveBtn" id="emailSaveButton" onClick="changeEmailFieldsFromSaveToEdit()">Save</button>`	
+		`<button class="AccountEditSaveBtn" id="emailSaveButton" onClick="changeEmailFieldsFromSaveToEdit()">Save</button>`	
 	);
 }
 
 function changeEmailFieldsFromSaveToEdit() {		
-		//determine whether or not the user actually typed anything new
+		//gather from field
 		var possibleNewData = document.getElementById("emailInput").value;
 		
-		//if input is null, keep the old input and display it
-		if (possibleNewData == "") {
-			$("#emailDisplay").html(	
-				email
-			);
-		}
-		else {
-			//Will need to persist data
-		
-			email = possibleNewData;
-			$("#emailDisplay").html(	
-				email
-			);
-		
-		}
-		
-		//convert "save" button to "edit" button
+		//reset display
+		$("#emailDisplay").text(JSemail);
 		$("#emailEditButtonDiv").html(
-			`<button type="button" class="AccountEditSaveBtn" id="emailEditButton" onClick="changeEmailFieldsFromEditToSave()">Edit</button>`
+			`<button id="emailEditButton" onClick="changeEmailFieldsFromEditToSave()">Edit</button>`
 		);
+			
+		//if anything was entered, attempt AJAX call
+		if ((possibleNewData != "") && (possibleNewData != null)) {
+			if ((possibleNewData.length < 5) || (possibleNewData.length > 40) || (!possibleNewData.includes("@")) || (!possibleNewData.includes("."))) {
+				addToErrorDiv("Email must be valid and between 4 and 40 characters.");
+			}
+			else {
+				//prepare for and make AJAX call
+				JSemailP = possibleNewData;
+				AJAXCallToEditAccount();
+			}
+		}
+		
 }
 
 function changeUsernameFieldsFromEditToSave() {
 	$("#usernameDisplay").html(	
-		`<input type="text" class="inputBox" placeholder="Username" id="usernameInput">`	
+		`<input type="text" class="editAccountInfoInput" placeholder="Username" id="usernameInput" maxlenght="15">`	
 	);
 		
+	$("#usernameInput").val(JSusername);
+		
 	$("#usernameButtonDiv").html(	
-		`<button type="button" class="AccountEditSaveBtn" id="usernameSaveButton" onClick="changeUsernameFieldsFromSaveToEdit()">Save</button>`	
+		`<button class="AccountEditSaveBtn" id="usernameSaveButton" onClick="changeUsernameFieldsFromSaveToEdit()">Save</button>`	
 	);
 }
 
 function changeUsernameFieldsFromSaveToEdit() {		
-		//determine whether or not the user actually typed anything new
+		//gather from the field
 		var possibleNewData = document.getElementById("usernameInput").value;
 		
-		//if input is null, keep the old input and display it
-		if (possibleNewData == "") {
-			$("#usernameDisplay").html(	
-				username
-			);
-		}
-		else {
-			//Will need to persist data
-		
-			username = possibleNewData;
-			$("#usernameDisplay").html(	
-				username
-			);
-		
-		}
-		
-		//convert "save" button to "edit" button
+		//reset display
+		$("#usernameDisplay").text(JSusername);
 		$("#usernameButtonDiv").html(
-			`<button type="button" class="AccountEditSaveBtn" id="usernameEditButton" onClick="changeUsernameFieldsFromEditToSave()">Edit</button>`
+			`<button id="usernameEditButton" onClick="changeUsernameFieldsFromEditToSave()">Edit</button>`
 		);
-}
-
-function changePasswordFieldsFromEditToSave() {
-	$("#passwordDisplay").html(	
-		`<input type="text" class="inputBox" placeholder="Password" id="passwordInput">`	
-	);
 		
-	$("#passwordButtonDiv").html(	
-		`<button type="button" class="AccountEditSaveBtn" id="passwordSaveButton" onClick="changePasswordFieldsFromSaveToEdit()">Save</button>`	
-	);
-}
-
-function changePasswordFieldsFromSaveToEdit() {		
-		//determine whether or not the user actually typed anything new
-		var possibleNewData = document.getElementById("passwordInput").value;
-		
-		//if input is null, keep the old input and display it
-		if (possibleNewData == "") {
-			$("#passwordDisplay").html(	
-				password
-			);
-		}
-		else {
-			//Will need to persist data
-		
-			password = possibleNewData;
-			$("#passwordDisplay").html(	
-				password
-			);
-		
+		//if anything was entered, attempt AJAX call
+		if ((possibleNewData != "") && (possibleNewData != null)) {
+			if ((possibleNewData.length < 2) || (possibleNewData.length > 20)) {
+				addToErrorDiv("Username must be between 2 and 15 characters.");
+			}
+			else {
+				//prepare for and make AJAX call
+				JSusernameP = possibleNewData;
+				AJAXCallToEditAccount();
+			}
 		}
 		
-		//convert "save" button to "edit" button
-		$("#passwordButtonDiv").html(
-			`<button type="button" class="AccountEditSaveBtn" id="passwordEditButton" onClick="changePasswordFieldsFromEditToSave()">Edit</button>`
-		);
 }
 
 function changeRegionFieldsFromEditToSave() {
 	$("#regionDisplay").html(	
-		`<select id="regionInput">
-			<option value="Africa">Africa</option>
-			<option value="CentralAsia">Central Asia</option>
-			<option value="EasternAsia">Eastern Asia</option>
-			<option value="SouthernAsia">Southern Asia</option>
-			<option value="Caribbean">Caribbean</option>
-			<option value="Europe">Europe</option>
-			<option value="MiddleEast">Middle East</option>
-			<option value="NorthAmerica">North America</option>
-			<option value="SouthAmerica">South America</option>
-			<option value="Oceania">Oceania</option>
+		`<select class="editAccountInfoInput" id="regionInput">
 		</select>`	
 	);
 		
 	$("#regionButtonDiv").html(	
-		`<button type="button" class="AccountEditSaveBtn" id="regionSaveButton" onClick="changeRegionFieldsFromSaveToEdit()">Save</button>`	
+		`<button class="AccountEditSaveBtn" id="regionSaveButton" onClick="changeRegionFieldsFromSaveToEdit()">Save</button>`	
 	);
+	
+	configureDropdownAjaxCall();
+}
+
+function configureDropdownAjaxCall() {
+
+	$.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/community/regions',
+        success: function(regionArray) {
+            //get a reference to the regions dropdown
+            var regionsDiv = $('#regionInput');
+
+            //go through each of the returned values and append
+            $.each(regionArray, function(index, region) {
+				var regionsInput;
+				if (region.regionid == JSregionID) {
+					var regionsInput = '<option value="' + region.regionid + '" selected>' + region.regionName + '</option>'
+				} else {
+					var regionsInput = '<option value="' + region.regionid + '">' + region.regionName + '</option>'
+				}
+				regionsDiv.append(regionsInput);
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            addToErrorDiv("Failure to load regions from database into dropdown box.");
+        }
+    });
+
 }
 
 function changeRegionFieldsFromSaveToEdit() {		
-		//determine whether or not the user actually typed anything new
+		//gather data from the field
 		var possibleNewData = document.getElementById("regionInput").value;
 		
-		//if input is null, keep the old input and display it
-		if (possibleNewData == "") {
-			$("#regionDisplay").html(	
-				region
-			);
-		}
-		else {
-			//Will need to persist data
-		
-			region = possibleNewData;
-			$("#regionDisplay").html(	
-				region
-			);
-		
-		}
-		
-		//convert "save" button to "edit" button
+		//reset display
+		$("#regionDisplay").text(JSregionName);
 		$("#regionButtonDiv").html(
-			`<button type="button" class="AccountEditSaveBtn" id="regionEditButton" onClick="changeRegionFieldsFromEditToSave()">Edit</button>`
+			`<button class="AccountEditSaveBtn" id="regionEditButton" onClick="changeRegionFieldsFromEditToSave()">Edit</button>`
 		);
+		
+		JSregionIDP = possibleNewData;
+		
+		AJAXCallToEditAccount();
+
 }
+
+//account type
 
 function changeTypeFieldsFromEditToSave() {
 	$("#typeDisplay").html(	
-		`<select id="typeInput">
-			<option value="1">Member</option>
-			<option value="2">Administrator</option>
-			<option value="3">Deleted</option>
-		</select>`	
+		`<select class="editAccountInfoInput" id="accountTypeInput">
+		</select>`
 	);
 		
 	$("#typeButtonDiv").html(	
-		`<button type="button" class="AccountEditSaveBtn" id="typeSaveButton" onClick="changeTypeFieldsFromSaveToEdit()">Save</button>`	
+		`<button class="AccountEditSaveBtn" id="accountTypeSaveButton" onClick="changeTypeFieldsFromSaveToEdit()">Save</button>`	
 	);
+	
+	configureDropdownAjaxTypeCall();
+}
+
+function configureDropdownAjaxTypeCall() {
+
+	$.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/community/accountTypes',
+        success: function(accountTypeArray) {
+            //get a reference to the dropdown
+            var referenceSelect = $('#accountTypeInput');
+
+            //go through each of the returned values and append
+            $.each(accountTypeArray, function(index, type) {
+                var toBeAppended;
+				if (type.accounttypeid == JSaccountTypeId) {
+					toBeAppended = '<option selected value="' + type.accounttypeid + '">' + type.accountTypeName + '</option>';
+				} else {
+					toBeAppended = '<option value="' + type.accounttypeid + '">' + type.accountTypeName + '</option>';
+				}				
+				referenceSelect.append(toBeAppended);
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            addToErrorDiv("Failure to load account-types from database into dropdown box.");
+        }
+    });
+
 }
 
 function changeTypeFieldsFromSaveToEdit() {		
-		//determine whether or not the user actually typed anything new
-		var possibleNewData = document.getElementById("typeInput").value;
+		//gather data from the field
+		var possibleNewData = document.getElementById("accountTypeInput").value;
 		
-		//if input is null, keep the old input and display it
-		if (possibleNewData == "") {
-			$("#typeDisplay").html(	
-				type
-			);
-		}
-		else {
-			//Will need to persist data
-		
-			type = possibleNewData;
-			$("#typeDisplay").html(	
-				type
-			);
-		
-		}
-		
-		//convert "save" button to "edit" button
+		//reset display
+		$("#typeDisplay").text(JSregionName);
 		$("#typeButtonDiv").html(
-			`<button type="button" class="AccountEditSaveBtn" id="typeEditButton" onClick="changeTypeFieldsFromEditToSave()">Edit</button>`
+			`<button class="AccountEditSaveBtn" type="button" class="AccountEditSaveBtn" id="regionEditButton" onClick="changeTypeFieldsFromEditToSave()">Edit</button>`
 		);
+		
+		JSaccountTypeIdP = possibleNewData;
+		
+		AJAXCallToEditAccount();
+
 }
-
-
-
-
-
 
 

@@ -56,8 +56,8 @@ function logInRequested() {
 		addToErrorDiv("A valid username must be between 2 and 15 characters");
 		proceedWithAjaxCall = false;
 	}
-	if ((attemptedUsername.length < 2) || (attemptedUsername.length > 15)) {
-		addToErrorDiv("A valid username must be between 2 and 15 characters");
+	if ((attemptedPassword.length < 2) || (attemptedPassword.length > 20)) {
+		addToErrorDiv("A valid password must be between 2 and 20 characters");
 		proceedWithAjaxCall = false;
 	}
 	

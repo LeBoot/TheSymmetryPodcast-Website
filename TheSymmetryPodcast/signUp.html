@@ -91,37 +91,27 @@ Date Modified:
 				<form id="signUpForm">
 					<div>
 						<div id="firstNameArea">
-							<input type="text" class="text full-width" placeholder="First Name*" name="firstNameInput" required>
+							<input type="text" class="text full-width" placeholder="First Name*" id="firstNameInput" maxlength="24" required>
 						</div>
 						<div id="lastNameArea">
-							<input type="text" class="text full-width" placeholder="Last Name*" name="lastNameInput" required>
+							<input type="text" class="text full-width" placeholder="Last Name*" id="lastNameInput" maxlength="24" required>
 						</div>
 						<div id="emailArea">
-							<input type="email" class="text full-width" placeholder="Email*" name="emailInput" required>
+							<input type="email" class="text full-width" placeholder="Email*" id="emailInput" maxlength="40" required>
 						</div>
 						<div id="userNameArea">
-							<input type="text" class="text full-width" placeholder="Username*" name="userNameInput" required>
+							<input type="text" class="text full-width" placeholder="Username*" id="userNameInput" maxlength="14" required>
 						</div>
 						<div id="passwordArea">
-							<input type="password" class="text full-width" placeholder="Password*" name="passwordInput" required>
+							<input type="password" class="text full-width" placeholder="Password*" id="passwordInput" maxlength="20" required>
 						</div>
 						<div id="regionArea">
-							<select id="regionSelect" name="regionInput">
-								<option value="Default" disabled selected hidden>Where are you listening from?</option>
-								<option value="Africa">Africa</option>
-								<option value="CentralAsia">Central Asia</option>
-								<option value="EasternAsia">Eastern Asia</option>
-								<option value="SouthernAsia">Southern Asia</option>
-								<option value="Caribbean">Caribbean</option>
-								<option value="Europe">Europe</option>
-								<option value="MiddleEast">Middle East</option>
-								<option value="NorthAmerica">North America</option>
-								<option value="SouthAmerica">South America</option>
-								<option value="Oceania">Oceania</option>
+							<select id="regionSelect" name="regionSelect" required>
+								<!-- Dynamically added with JS -->
 							</select>
 						</div>
 						<div id="createAccountButtonArea">
-							<button type="button">Create Account</button>
+							<button type="button" onClick="createNewAccount()">Create Account</button>
 						</div>
 						<div id="alreadyHasAccountArea">
 							Already have an account? <a href="logIn.html">Log In</a>
@@ -137,6 +127,7 @@ Date Modified:
 	
 	<!-- javaScript -->
 	<script src="js/headerFooter.js" ></script>
+	<script src="js/signUp.js" ></script>
 	<script src="js/LogOff.js" ></script>
 	
 	<!-- Full JQuery -->
