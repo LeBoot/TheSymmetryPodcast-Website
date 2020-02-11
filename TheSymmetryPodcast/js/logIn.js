@@ -11,10 +11,6 @@ Date Modified: 6 FEB 2020
 
 */
 
-/* TO DO LIST
-1) POST method (success) not working on the back-end
-*/
-
 
 //ERROR DIV -------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
@@ -90,3 +86,45 @@ function AJAXcallToVerifyInput(attemptedUsername, attemptedPassword) {
 	});
 	
 }
+
+//HANDLE FORGOT PASSWORD ------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
+
+function forgotPasswordClicked() {
+	
+	emptyErrorDiv();
+	
+	var input = prompt("Please enter your email.  If it's associated with a valid account, we'll send you an email!", "");
+	
+	if ((input == null) || (input == "")) {
+		return false;
+	}
+	else {
+		forotPasswordAJAXCall(input);
+	}
+	
+}
+
+function forotPasswordAJAXCall(input) {
+	
+	$.ajax({
+		type: 'GET',
+		url: 'http://localhost:8080/community/forgotPassword/' + input,
+		success: function() {
+			emptyErrorDiv();
+			$("#userNameInput").val("");
+			$("#passwordInput").val("");
+			alert("Password reset.  Please check your email.");
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			addToErrorDiv("That email is not associated with a Symmetry Podcast account.  Sorry.  Feel free to try again.");
+        }
+	});
+	
+}
+
+
+
+
+
+

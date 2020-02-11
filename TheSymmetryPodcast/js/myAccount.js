@@ -9,10 +9,6 @@ Date Modified: 7 FEB 2020
 This document contains the code to make an interactive myAccount page.
 */
 
-/* TO DO LIST
-1) Delete account
-*/
-
 //VARIABLES AND CONSTANTS ----------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
 const JSblockedOutPassword = "*******";

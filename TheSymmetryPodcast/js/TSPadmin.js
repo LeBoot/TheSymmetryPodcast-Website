@@ -2,19 +2,13 @@
 Name: TSPadmin.js, (TSP Capstone)
 Author: Leboutillier
 Date Created: 26 JAN 2020
-Date Modified: 9 FEB 2020
+Date Modified: 10 FEB 2020
 */
 
 /*
 1) This document contains the code to make an interactive TSPadmin page.
 2) There are three main options: "view accounts", "view messages", and "view mp3s"
 	- each option will present the user with a new group of selections
-*/
-
-/* TO DO LIST
-1) Toggle account
-2) Toggle MP3
-
 */
 
 
@@ -746,7 +740,327 @@ function AJAXCallEditMessageNote(messageID, newNote, originalLocation) {
 //TOGGLE MP3 OPTIONS -------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------
 
+// VIEW MP3s --------------------------------------------------------------------------------------
+function viewAllMP3s() {	
+	
+	emptyErrorDiv();
+	
+	$("#extraSpace").hide();
+	
+	$("#mp3ChoiceDiv").html(
+	
+		`<h3 class="accountChoiceHeader">View All MP3s</h3>
+		<table id="allEpisodesTable">
+			<tr>
+				<th width="22%">Title</th>
+				<th width="13%">Date</th>
+				<th width="14%">Link</th>
+				<th width="39%">Description</th>
+				<th width="6%"></th>
+				<th width="6%"></th>
+			</tr>
+		</table>`
+	
+	);
+	
+	appendEpisodeTable();
+	
+}
 
+function appendEpisodeTable() {
+	
+	var tableToAppend = $("#allEpisodesTable");
+	
+	$.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/episode/get/all',
+        success: function(episodeArray) {
+			
+			emptyErrorDiv();
+
+            $.each(episodeArray, function(index, episode) {
+				var htmlToAdd = `<tr>`;
+				htmlToAdd += `<td id="table-row-episode-title-` + index + `"></td>`;
+				htmlToAdd += `<td id="table-row-episode-date-` + index + `"></td>`;
+				htmlToAdd += `<td id="table-row-episode-link-` + index + `"></td>`;
+				htmlToAdd += `<td id="table-row-episode-description-` + index + `"></td>`;
+				htmlToAdd += `<td><button type="button" class="listAllAccountsEditButton" onClick="viewEditMP3(` + episode.episodekey + `)">Edit</button></td>`;
+				htmlToAdd += `<td><button type="button" class="listAllAccountsDeleteButton" onClick="deleteMP3(` + episode.episodekey + `, '` + episode.episodeTitle + `')">Delete</button></td>`;
+				htmlToAdd += `</tr>`;
+
+				tableToAppend.append(htmlToAdd);
+				
+				$("#table-row-episode-date-" + index).text(episode.episodeDate);
+				$("#table-row-episode-title-" + index).text(episode.episodeTitle);
+				$("#table-row-episode-link-" + index).text(episode.episodeLink);
+				$("#table-row-episode-description-" + index).text(episode.episodeDescription);
+				
+            })
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+			addToErrorDiv("Failure to load episodes from the back-end.");
+        }
+    });	
+
+}
+
+// DELETE MP3s --------------------------------------------------------------------------------------
+
+function deleteMP3(episodeKey, episodeTitle) {
+	
+	var output;
+	var input = prompt("Are you sure you want to permanantly delete  \"" + episodeTitle + "\"?  If so, enter your administrator password:", "");
+	
+	if (input == AdministratorPassword) {
+		deleteMP3AJAXCall(episodeKey);
+	}
+	else if ((input == null) || (input == "")) {
+		return false;
+	}
+	else {
+		alert("Incorrect Password");
+	}
+	
+}
+
+function deleteMP3AJAXCall(episodeKey) {
+	
+	$.ajax({
+		type: 'GET',
+		url: 'http://localhost:8080/episode/delete/' + episodeKey,
+		success: function() {
+			emptyErrorDiv();
+			alert("Episode Deleted.");
+			viewAllMP3s();
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			addToErrorDiv("Failure to delete that episode.");
+        }
+	});
+	
+}
+
+// EDIT MP3s --------------------------------------------------------------------------------------
+
+function viewEditMP3(episodeKey) {
+	
+	$("#mp3ChoiceDiv").html(
+	
+		`<div id="editMP3Div">
+			<h3 style="text-align: center;"> Edit an Episode </h3>
+			<form id="editAnMP3Form">
+				<div>
+					<input class="editMP3infoDisplay" type="text" placeholder="title*" maxlength="49" id="editMP3TitleInput">
+				</div>
+				<div>
+					<input class="editMP3infoDisplay" type="text" placeholder="release date*" maxlength="25" id="editMP3DateInput">
+				</div>
+				<div>
+					<input class="editMP3infoDisplay" type="text" placeholder="episode link*" maxlength="60" id="editMP3LinkInput">
+				</div>
+				<div>
+					<textarea class="editMP3infoDisplay" type="text" placeholder="description*" maxlength="500" id="editMP3DescriptionInput"></textarea>
+				</div>
+				<div>
+					<button type="button" class="editMP3SaveCancelButton" onClick="saveEditedMP3(` + episodeKey + `)">Save</button>
+					<button type="button" class="editMP3SaveCancelButton" onClick="viewAllMP3s()">Cancel</button>
+				</div>
+			</form>
+		</div>`	
+		
+	);
+	
+	$.ajax({
+		type: 'GET',
+		url: 'http://localhost:8080/episode/get/' + episodeKey,
+		success: function(episode) {
+			emptyErrorDiv();
+			$("#editMP3TitleInput").val(episode.episodeTitle);
+			$("#editMP3DateInput").val(episode.episodeDate);
+			$("#editMP3LinkInput").val(episode.episodeLink);
+			$("#editMP3DescriptionInput").val(episode.episodeDescription);			
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			addToErrorDiv("Failure to load episode details.");
+        }
+	});
+	
+}
+
+function saveEditedMP3(episodeKeyP) {
+	
+	var proceedWithAJAXMP3Call = true;
+	
+	var thisEpisodesTitle = $("#editMP3TitleInput").val();
+	var thisEpisodesDate = $("#editMP3DateInput").val();
+	var thisEpisodesLink = $("#editMP3LinkInput").val();
+	var thisEpisodesDescr = $("#editMP3DescriptionInput").val();
+	
+	if (thisEpisodesTitle.length < 2) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("You must give the episode a title.");
+	}
+	if (thisEpisodesDate.length < 2) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("You must give the episode a date.");
+	}
+	if (thisEpisodesLink.length < 2) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("You must give the episode a link.");
+	}
+	if (thisEpisodesDescr.length < 2) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("You must give the episode a description.");
+	}
+	if (thisEpisodesTitle.length > 50) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("The episode's title cannot exceed 50 characters.");
+	}
+	if (thisEpisodesDate.length > 25) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("The episode's date cannot exceed 25 characters.");
+	}
+	if (thisEpisodesLink.length > 60) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("The episode's link cannot exceed 60 characters, nor can it be identical to another episode's link.");
+	}
+	if (thisEpisodesDescr.length > 5000) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("The episode's description cannot exceed 5000 characters.");
+	}
+	
+	if (proceedWithAJAXMP3Call == true) {
+	
+		$.ajax({
+			type: 'POST',
+			url: 'http://localhost:8080/episode/save',
+			data: JSON.stringify({
+				episodekey : episodeKeyP,
+				episodeLink : thisEpisodesLink,
+				episodeTitle : thisEpisodesTitle,
+				episodeDate : thisEpisodesDate,
+				episodeDescription : thisEpisodesDescr
+
+			}),
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			success: function() {
+				viewAllMP3s();
+				
+			},
+			error: function(jqXHR, textStatus, errorThrown) {			
+				addToErrorDiv("Whoops.  Those changes were not valid.");
+			}
+		});
+	}
+	
+}
+
+// CREATE MP3s --------------------------------------------------------------------------------------
+function CreateNewMP3() {
+	
+	emptyErrorDiv();
+	
+	$("#mp3ChoiceDiv").html(
+	
+		`<div id="editMP3Div">
+			<h3 style="text-align: center;"> Add an Episode </h3>
+			<form id="editAnMP3Form">
+				<div>
+					<input class="editMP3infoDisplay" type="text" placeholder="title*" maxlength="49" id="newMP3TitleInput">
+				</div>
+				<div>
+					<input class="editMP3infoDisplay" type="text" placeholder="release date*" maxlength="25" id="newMP3DateInput">
+				</div>
+				<div>
+					<input class="editMP3infoDisplay" type="text" placeholder="episode link*" maxlength="60" id="newMP3LinkInput">
+				</div>
+				<div>
+					<textarea class="editMP3infoDisplay" type="text" placeholder="description*" maxlength="500" id="newMP3DescriptionInput"></textarea>
+				</div>
+				<div>
+					<button type="button" class="editMP3SaveCancelButton" onClick="saveNewMP3()">Save</button>
+					<button type="button" class="editMP3SaveCancelButton" onClick="viewAllMP3s()">Cancel</button>
+				</div>
+			</form>
+		</div>`	
+		
+	);
+	
+}
+
+function saveNewMP3() {
+	
+	emptyErrorDiv();
+	
+	var proceedWithAJAXMP3Call = true;
+	
+	var thisEpisodesTitle = $("#newMP3TitleInput").val();
+	var thisEpisodesDate = $("#newMP3DateInput").val();
+	var thisEpisodesLink = $("#newMP3LinkInput").val();
+	var thisEpisodesDescr = $("#newMP3DescriptionInput").val();
+	
+	
+	if (thisEpisodesTitle.length < 2) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("You must give the episode a title.");
+	}
+	if (thisEpisodesDate.length < 2) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("You must give the episode a date.");
+	}
+	if (thisEpisodesLink.length < 2) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("You must give the episode a link.");
+	}
+	if (thisEpisodesDescr.length < 2) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("You must give the episode a description.");
+	}
+	if (thisEpisodesTitle.length > 50) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("The episode's title cannot exceed 50 characters.");
+	}
+	if (thisEpisodesDate.length > 25) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("The episode's date cannot exceed 25 characters.");
+	}
+	if (thisEpisodesLink.length > 60) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("The episode's link cannot exceed 60 characters, nor can it be identical to another episode's link.");
+	}
+	if (thisEpisodesDescr.length > 5000) {
+		proceedWithAJAXMP3Call = false;
+		addToErrorDiv("The episode's description cannot exceed 5000 characters.");
+	}
+	
+	if (proceedWithAJAXMP3Call == true) {
+		$.ajax({
+			type: 'POST',
+			url: 'http://localhost:8080/episode/save/new',
+			data: JSON.stringify({
+				episodeLink : thisEpisodesLink,
+				episodeTitle : thisEpisodesTitle,
+				episodeDate : thisEpisodesDate,
+				episodeDescription : thisEpisodesDescr
+			}),
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			success: function() {
+				viewAllMP3s();
+			},
+			error: function(jqXHR, textStatus, errorThrown) {			
+				addToErrorDiv("Whoops.  Either what you entered was not valid, or we're having a problem on the backend.");
+			}
+		});
+	}
+	
+}
 
 
 //EDIT ACCOUNT FUNCTIONALITY -----------------------------------------------------------------------------------
@@ -868,7 +1182,7 @@ function editAccountView(accountNumber) {
 						Administrator
 					</div>
 					<div class="editButtonDiv" id="typeButtonDiv">
-						<button type="button" class="AccountEditSaveBtn" id="regionEditButton" onClick="changeTypeFieldsFromEditToSave()">Edit</button>
+						<button type="button" class="AccountEditSaveBtn" id="typeEditButton" onClick="changeTypeFieldsFromEditToSave()">Edit</button>
 					</div>
 				</div>
 			</div>
@@ -1150,10 +1464,10 @@ function configureDropdownAjaxCall() {
         type: 'GET',
         url: 'http://localhost:8080/community/regions',
         success: function(regionArray) {
-            //get a reference to the regions dropdown
+            // get a reference to the regions dropdown
             var regionsDiv = $('#regionInput');
 
-            //go through each of the returned values and append
+            // go through each of the returned values and append
             $.each(regionArray, function(index, region) {
 				var regionsInput;
 				if (region.regionid == JSregionID) {

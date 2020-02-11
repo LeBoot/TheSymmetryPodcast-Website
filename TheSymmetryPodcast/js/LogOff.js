@@ -2,7 +2,7 @@
 Name: logOff.js, (TSP Capstone)
 Author: Leboutillier
 Date Created: 5 FEB 2020
-Date Modified:
+Date Modified: 5 FEB 2020
 */
 
 /*

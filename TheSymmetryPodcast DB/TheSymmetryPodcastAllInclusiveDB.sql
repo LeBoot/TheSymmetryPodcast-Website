@@ -31,8 +31,8 @@ CREATE TABLE AccountTbl(
     MyUsername VARCHAR(15) NOT NULL,
     MyPassword VARCHAR(20) NOT NULL,
     StartDate DATE NOT NULL,
-    RegionID INT,
-    AccountTypeID INT,
+    RegionID INT NOT NULL,
+    AccountTypeID INT NOT NULL DEFAULT 1,
     FOREIGN KEY fk_RegionTbl_RegionID (RegionID)
 		REFERENCES RegionTbl (RegionID),
 	FOREIGN KEY fk_AccountTypeTbl_AccountTypeID (AccountTypeID)
@@ -55,9 +55,10 @@ CREATE TABLE ContactMessagesTbl(
 );
 
 CREATE TABLE MP3Tbl(
-	episodeLink VARCHAR(60) PRIMARY KEY,
+	episodeKey INT PRIMARY KEY AUTO_INCREMENT,
+    episodeLink VARCHAR(60),
     episodeTitle VARCHAR(50) NOT NULL,
-    episodeDate DATE NOT NULL,
+    episodeDate VARCHAR(25) NOT NULL,
     episodeDescription TEXT NOT NULL
 );
 
@@ -88,31 +89,32 @@ INSERT INTO AccountTypeTbl (AccountTypeID, AccountTypeName) VALUES
 -- Add Dummy Data ------------------------------------------------------------------------------
 
 -- Add Episodes
-INSERT INTO MP3Tbl (episodeLink, episodeTitle, episodeDate, episodeDescription) VALUES
-	("mp3s/TSP-S1-Trailer", "Introducing the Symmetry Podcast", "2018-04-02",
+INSERT INTO MP3Tbl (episodeKey, episodeLink, episodeTitle, episodeDate, episodeDescription) VALUES
+	(1, "mp3s/TSP-S1-Trailer.mp3", "Introducing the Symmetry Podcast", "April 2, 2018",
 		"Hello! The Symmetry Podcast is a home for conversations about faith and humanity that are designed to help people grow.  We invite you to check out this trailer episode!"),
-    ("mp3s/TSP-S1-E1", "1 Pilot (Word)", "2018-05-10",
+    (2, "mp3s/TSP-S1-E1.mp3", "1 Pilot (Word)", "May 10, 2018",
 		"An episode about Greek philosophy, the Koine Greek language, and faith."),
-	("mp3s/TSP-S1-E2", "2 Boxes", "2018-07-03",
+	(3, "mp3s/TSP-S1-E2.mp3", "2 Boxes", "July 3, 2018",
 		"An episode about personality typing, ancient literature, and spirituality."),
-	("mp3s/TSP-S1-B1", "Bonus: Leaven", "2018-07-25",
+	(4, "mp3s/TSP-S1-B1.mp3", "Bonus: Leaven", "July 25, 2018",
 		"A special episode in which one of our co-hosts shares a homily about seeing well-known Christian stories through a new lens."),
-	("mp3s/TSP-S1-E3", "3 Garlic", "2018-07-31",
+	(5, "mp3s/TSP-S1-E3.mp3", "3 Garlic", "July 31, 2018",
 		"An episode about alliaceous foods, the Talmud, and ancient prophecies."),
-	("mp3s/TSP-S1-E4", "4 Paths (with Rabbi Adam Grossman)", "2018-08-19",
+	(6, "mp3s/TSP-S1-E4.mp3", "4 Paths (with Rabbi Adam Grossman)", "August 19, 2018",
 		"An interview with Rabbi Adam Grossman, the CEO at University of Florida Hillel in Gainesville."),
-	("mp3s/TSP-S1-B2", "Bonus: Syrophoenician", "2018-09-10",
+	(7, "mp3s/TSP-S1-B2.mp3", "Bonus: Syrophoenician", "September 9, 2018",
 		"A special bonus episode in which one of our co-hosts shares the story of a woman from the ancient Roman province of Syria and how her story has parallels in life today."),
-	("mp3s/TSP-S1-E5", "5 Parable", "2018-09-24",
+	(8, "mp3s/TSP-S1-E5.mp3", "5 Parable", "September 24, 2018",
 		"An episode about stories, parables, and humanity connecting with spirituality."),
-	("mp3s/TSP-S1-E6", "6 Believe (The Christmas Episode)", "2018-12-23",
+	(9, "mp3s/TSP-S1-E6.mp3", "6 Believe (The Christmas Episode)", "December 23, 2018",
 		"An episode about Christmas, faith, and everything in between.");
         
         
 -- Create users
 INSERT INTO AccountTbl (FirstName, LastName, MyEmail, MyUsername, MyPassword, StartDate, RegionID, AccountTypeID) VALUES
-	("Ben", "LeBoot", "BLeBoot@website.com", "BenLeBoot", "root", "2018-01-01", 8, 2),
+	("Ben", "LeBoot", "BenLeBoot@gmail.com", "BenLeBoot", "root", "2018-01-01", 8, 2),
     ("Brad", "Collins", "bradson@website.com", "BradCollins", "root", "2018-01-01", 8, 2),
+    ("Morganna", "Ciffy", "mmkk@tsp.com", "MK", "root", "2018-01-02", 8, 2),
 	("Lewis", "Hamilton", "LHamil@f1.com", "LewisH", "lewis", "2019-03-04", 4, 1),
     ("Valtteri", "Bottas", "vBottas@website.com", "Bottas!", "bottasPass", "2019-05-19", 1, 1),
     ("Sebastian", "Vettel", "sVettSVett@f1.com", "SebastianHere", "vettMan", "2019-09-22", 5, 1),
