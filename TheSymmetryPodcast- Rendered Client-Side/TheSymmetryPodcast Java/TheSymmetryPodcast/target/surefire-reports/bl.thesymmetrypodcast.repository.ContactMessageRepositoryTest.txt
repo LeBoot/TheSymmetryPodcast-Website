@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: bl.thesymmetrypodcast.repository.ContactMessageRepositoryTest
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.917 s - in bl.thesymmetrypodcast.repository.ContactMessageRepositoryTest
