@@ -1,0 +1,56 @@
+/*
+Name: blog.css, (TSP Capstone)
+Author: Leboutillier
+Date Created: 11 FEB 2020
+Date Modified: 11 FEB 2020
+*/
+
+.blogItem {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	border-bottom-style: solid;
+	border-bottom-color: dimGrey;
+}
+
+.blogItem p {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	text-align: justify;
+}
+
+.blogText {
+	padding-left: 25px;
+	font-size: 16px; 
+}
+
+#imageChristmasTree {
+	max-height: 450px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-right: 20px;
+	padding-left: 0px;
+}
+
+#imageEinGedi,
+#imageAlps {
+	max-width: 300px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-right: 0px;
+	padding-left: 20px;
+}
+
+.imageAndCaptionDiv {
+	padding-bottom: 10px;
+	padding-top: 15px;
+}
+
+.captionForImage {
+	font-size: 15px;
+	color: grey;
+}
+
+#blogNavButton {
+	text-decoration-line: underline;
+	text-decoration-style: double;
+}
