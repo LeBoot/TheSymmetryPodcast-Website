@@ -1,0 +1,76 @@
+/*
+Name: listen.css, (TSP Capstone)
+Author: Leboutillier
+Date Created: 11 FEB 2020
+Date Modified: 11 FEB 2020
+*/
+
+#listenNavButton {
+	text-decoration-line: underline;
+	text-decoration-style: double;
+}
+
+#pageContentDiv {
+	max-width: 700px;
+	margin: auto;
+}
+	
+.episodeDiv {
+	background-color: lightblue;
+	max-width: 90%;
+	margin: 35px auto;
+	border-radius: 4px;
+	padding: 15px 20px;
+}
+	
+.episodeTitleDiv {
+	font-size: 35px;
+}
+
+.episodeDateDiv {
+	font-size: 20px;
+	padding-bottom: 10px;
+}
+
+.episodeDescriptionDiv {
+	font-size: 18px;
+	padding-bottom: 15px;
+}
+
+.audioTag {
+	width: 100%;
+}
+	
+#restrictedAccessDiv {
+	text-align: center;
+	font-size: 18px;
+	margin-bottom: 30px;
+}
+	
+hr {
+	border: solid grey 1px;
+}
+	
+#logInOrSignUp {
+	margin-top: 20px;
+}
+
+#logInLinkAnchor,
+#signUpLinkAnchor {
+	border: solid black 1px;
+	border-radius: 4px;
+	color: black;
+	background-color: white;
+	padding: 5px 10px;
+	margin: 10px;
+}
+
+#logInLinkAnchor:hover,
+#signUpLinkAnchor:hover {
+	text-decoration: none;
+	border: solid black 2px;
+}
+
+#listenTitle {
+	text-align: center;
+}

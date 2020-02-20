@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<!--
+Name: contact.html, (TSP Capstone)
+Author: Leboutillier
+Date Created: 19 JAN 2020
+Date Modified: 11 FEB 2020
+-->
+
+<html lang="en">
+<head>
+	<!-- Meta for Bootstrap 4 -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<!-- Title for document -->
+	<title>Contact | The Symmetry Podcast</title>
+	
+	<!-- External links -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	
+	<!-- Additional CSS -->
+	<link href="/css/TspStyles.css" rel="stylesheet" type="text/css" />
+
+	<!-- Styles for this page -->
+	<link href="/css/contact.css" rel="stylesheet" type="text/css" />
+	<style></style>
+</head>
+		
+<body>
+	<div id="bodyWrap">
+		<noscript>
+			<div class="noScriptBox">This Website Will Not Function Properly Unless JavaScript Is Enabled</div>
+		</noscript>
+		<header>
+			<!-- Dynamically Added with headerFooter.js -->
+		</header>
+		<section>
+			<div class="accountIdDiv"></div>
+			<div class="errorDiv">
+				<!-- Content Dynamically Added -->
+			</div>
+			<div id="pageContent">
+			<h1 id="contactTitle">Contact Us</h1>
+				<form id="contactForm">
+					<div>
+						<div id="nameArea">
+							<input type="text" class="text full-width" placeholder="Name*" id="nameInput" maxlength="50" required>
+						</div>
+						<div id="emailArea">
+							<input type="email" class="text full-width" placeholder="Email*" id="emailInput" maxlength="50" required>
+						</div>
+						<div id="messageArea">
+							<textarea type="text" class="text full-width" placeholder="What's your message?*" id="messageInput" maxlength="5000" required></textarea>
+						</div>	
+						<div id="regionArea">
+							<select id="regionInput" required>
+								<!-- Dynamically added with contact.js -->
+							</select>
+						</div>				
+						<div id="contactButtonArea">
+							<button type="button" onClick="submitClicked()">Submit</button>
+						</div>
+					</div>
+				</form>
+				<div id="thankYouDiv">
+					<!-- dynamically added with submitClicked() -->
+				</div>
+			</div>
+		</section>
+		<footer>
+			<!-- Dynamically Added with headerFooter.js -->
+		</footer>
+	</div>
+	
+	<!-- javaScript -->
+	<script src="/js/headerFooter.js" ></script>
+	<script src="/js/contact.js" ></script>
+	<script src="/js/LogOff.js" ></script>
+	
+	<!-- Full JQuery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

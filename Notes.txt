@@ -1,0 +1,34 @@
+PROJECT DESCRIPTION
+	1) Capstone project for SoftwareGuild (Dev10, Genesis10) (12/2019 - 02/2020).
+	2) A full-stack website for The Symmetry Podcast, with back-end written in Java, with MySQL for persistence.
+	3) Website complete with front-end validation (using JavaScript), securities* and log-in sessions, 
+		administrator priveleges, and Spring/MVC framework.
+
+	*See CONTENT NOTES 1, 2
+
+
+UPLOAD NOTES
+
+	"TheSymmetryPodcast- Version 1" was uploaded without the folder "mp3s", which belongs at 
+	TheSymmetryPodcast-Website\TheSymmetryPodcast- Version 1\TheSymmetryPodcast Front-End
+		-Be sure to remove this folder before pushing to Git, lest the size of the repo
+			increase significantly (and the push take a while).
+
+
+	"TheSymmetryPodcast- Version 2 Refactored" was uploaded without the folder "mp3", which
+	belongs at TheSymmetryPodcast-Website\TheSymmetryPodcast- Version 2 Refactored\bl_TheSymmetryPodcastRefactored\src\main\resources\static
+		-Be sure to remove this folder before pushing to Git, lest the .jar file be too
+			large for a normal repository.
+
+
+CONTENT NOTES
+	Front-End Technologies: HTML, CSS, JavaScript (with jQuery), AJAX (with JSON), Bootstrap
+	Back-End Technologies: Java, Spring, Tomcat, JPA, Java Mail, Lombok
+	Database Technologies: MySQL, MySQL Workbench
+
+	1) Security is not Spring Security.  It is hand-done.
+	2) Passwords are not encrypted.
+	3) Username and passowrd for Java Mail API (found in service layer) have been changed
+		since coding this project.
+	4) No Thymeleaf is used.
+	5) No file uploader is present.  One will probably be needed to make this website feasible (when hosted live).

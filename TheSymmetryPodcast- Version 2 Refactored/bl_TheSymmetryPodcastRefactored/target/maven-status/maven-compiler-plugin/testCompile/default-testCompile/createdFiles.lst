@@ -1,0 +1,12 @@
+bl\thesymmetrypodcast\service\ContactMessageServiceTest.class
+bl\thesymmetrypodcast\service\AccountServiceTest.class
+bl\thesymmetrypodcast\service\MP3ServiceTest.class
+bl\thesymmetrypodcast\repository\AccountTypeRepositoryTest.class
+bl\thesymmetrypodcast\repository\ContactStatusRepositoryTest.class
+bl\thesymmetrypodcast\service\RegionServiceTest.class
+bl\thesymmetrypodcast\repository\AccountRepositoryTest.class
+bl\thesymmetrypodcast\repository\ContactMessageRepositoryTest.class
+bl\thesymmetrypodcast\service\ContactStatusServiceTest.class
+bl\thesymmetrypodcast\repository\RegionRepositoryTest.class
+bl\thesymmetrypodcast\repository\MP3RepositoryTest.class
+bl\thesymmetrypodcast\service\AccountTypeServiceTest.class
