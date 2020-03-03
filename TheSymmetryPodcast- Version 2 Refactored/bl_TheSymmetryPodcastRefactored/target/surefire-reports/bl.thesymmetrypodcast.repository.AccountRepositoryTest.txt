@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: bl.thesymmetrypodcast.repository.AccountRepositoryTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.028 s - in bl.thesymmetrypodcast.repository.AccountRepositoryTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.477 s - in bl.thesymmetrypodcast.repository.AccountRepositoryTest

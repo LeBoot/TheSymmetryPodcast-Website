@@ -36,7 +36,7 @@ public class MailServiceImpl implements MailService {
         properties.put("mail.smtp.port", "587");
         
         String myAccountEmail = "BenLeBoot@gmail.com";
-        String myPassword = "Dev10mail";
+        String myPassword = "password";
         
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
